@@ -1,4 +1,11 @@
 download the data.py
 relevant_data.json
-
+text
+text_val
+audio
+time
+audio_files
+.ipynb_checkpoints
+whisper-*
+03_dataset.json
 
