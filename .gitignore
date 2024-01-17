@@ -9,3 +9,7 @@ audio_files
 whisper-*
 03_dataset.json
 
+missing_filesashkenazi.json
+missing_filesbavly.json
+missing_filesmaroko.json
+missing_filesyerushalmi.json
