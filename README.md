@@ -1,4 +1,4 @@
-# Climbing Holds Classification
+# TorahTranscriber-Tropes
 
 ## Agenda
 
@@ -10,6 +10,7 @@
 
 ## Background  <a name="background"></a>
 
+TorahTranscriber-Tropes is a deep learning model designed for speech-to-text transcription of the Torah. It not only transcribes spoken words into text but also includes the traditional "טעמי המקרא"  for a comprehensive representation of the Torah text.
 
 
 
