@@ -1,0 +1,4 @@
+| Date Time | Repo Name | Batch Size | Gradient Accumulation Steps | Learning Rate | Warmup Steps | Max Steps | Gradient Checkpointing | Gradient Checkpointing Kwargs | FP16 | Evaluation Strategy | Eval Batch Size | Predict with Generate | Max Length | Save Steps | Eval Steps | Logging Steps | Report To | Load Best Model at End | Metric for Best Model | Greater is Better | Push to Hub | Training Loss | Epoch | Step | Validation Loss | Wer |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 02/06/2024, 18:21:55 | ./whisper-medium-he-teamim-silsuless-ori-TrainAndVal | 8 | 1 | 4e-05 | 0 | 1500 | True | {'use_reentrant': True} | True | IntervalStrategy.STEPS | 8 | True | 225 | 1500 | 50 | 50 | ['tensorboard'] | True | wer | False | True | 0.08926257665952046 | 0.49148099606815204 | 1500 | 0.04591647535562515 | 6.313328137178488 |
+
