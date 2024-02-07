@@ -1,6 +1,6 @@
 import json
 
-def split_data(file_path, train_ratio=0.9):
+def split_data(file_path, train_ratio=0.8):
     # Load the original data
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -29,4 +29,3 @@ def split_data(file_path, train_ratio=0.9):
     with open('validation_data.json', 'w', encoding='utf-8') as f:
         json.dump(validation_data, f, ensure_ascii=False, indent=4)
 
-split_data('03_dataset.json')
