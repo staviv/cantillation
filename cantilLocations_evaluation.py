@@ -18,10 +18,13 @@ def calculate_precision_recall_f1(cantilLocations_original: cantilLocationsObjec
     calculate the precision, recall and f1 for the "cantilLocation" object
     """
     TP, FP, FN = calculate_TP_FP_FN(cantilLocations_original, cantilLocations_tested)
-    precision = TP / (TP + FP)
-    recall = TP / (TP + FN)
-    f1 = 2 * (precision * recall) / (precision + recall)
-    return precision, recall, f1
+    if TP == 0:
+        return 0, 0, 0
+    else:
+        precision = TP / (TP + FP)
+        recall = TP / (TP + FN)
+        f1 = 2 * (precision * recall) / (precision + recall)
+        return precision, recall, f1
 
 def calculate_precision_recall_f1_for_string(original_string: str, tested_string: str) -> Tuple[float, float, float]:
     """
