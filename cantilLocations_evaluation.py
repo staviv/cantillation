@@ -35,7 +35,6 @@ def calculate_TP_FP_FN_with_Letter_Shift(cantilLocation_original: cantilLocation
     return TP, FP, FN
 
 
-
 def calculate_TP_FP_FN_Word_Level(cantilLocation_original: cantilLocationsObject, cantilLocation_tested: cantilLocationsObject) -> Tuple[int, int, int]:
     """
     Calculate the true positive, false positive, and false negative for the "cantilLocation" object. without the letter location

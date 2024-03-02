@@ -16,3 +16,9 @@ def just_teamim(text, base_char = BASE_CHAR):
         elif char == " ":
             new_text += " "
     return new_text
+
+def remove_makav(text):
+    makav_list = ["-","־"]
+    for makav in makav_list:
+        text = text.replace(makav, " ")
+    return text
