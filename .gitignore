@@ -8,8 +8,15 @@ audio_files
 .ipynb_checkpoints
 whisper-*
 03_dataset.json
+HF_token.txt
+Telegram-bot-token.txt
 
 missing_filesashkenazi.json
 missing_filesbavly.json
 missing_filesmaroko.json
 missing_filesyerushalmi.json
+
+__pycache__
+validation_data.json
+train_data.json
+test_data.json
