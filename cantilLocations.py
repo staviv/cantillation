@@ -14,6 +14,7 @@ class cantilLocationsObject:
     """
     def __init__(self, string):
         self.string = nikud_and_teamim.remove_nikud(string)
+        self.string = nikud_and_teamim.remove_makav(self.string)
         self.cantilLocations = []
         self.get_cantilLocations()
     
@@ -34,4 +35,6 @@ class cantilLocationsObject:
     def __str__(self):
         return str(self.cantilLocations)
 
+    def get_list(self):
+        return self.cantilLocations
 
