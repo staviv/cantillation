@@ -125,3 +125,12 @@ def calculate_precision_recall_f1_for_string_list(original_string_list: List[str
         f1_list.append(f1)
     return precision_list, recall_list, f1_list
 
+def calculate_precision_recall_f1_for_string_list_with_method_list(original_string_list: List[str], tested_string_list: List[str], method_list: List[str]) -> List[Tuple[List[float], List[float], List[float]]]:
+    """
+    calculate the precision, recall and f1 for the given list of strings with the given list of methods
+    """
+    result = []
+    for method in method_list:
+        precision_list, recall_list, f1_list = calculate_precision_recall_f1_for_string_list(original_string_list, tested_string_list, method)
+        result.append((precision_list, recall_list, f1_list))
+    return result

@@ -17,3 +17,6 @@ missing_filesmaroko.json
 missing_filesyerushalmi.json
 
 __pycache__
+validation_data.json
+train_data.json
+test_data.json
