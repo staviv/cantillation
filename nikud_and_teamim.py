@@ -3,24 +3,32 @@
 # text = re.sub(r'[\u0591-\u05C7]', '', text)
 
 # nikiud: HATAF_SEGOL:"ֱ",HATAF_PATAH:"ֲ",HATAF_QAMATZ:"ֳ",HIRIQ:"ִ",TSERE:"ֵ",SEGOL:"ֶ",PATAH:"ַ",QAMATZ:"ָ",SIN_DOT:"ׂ",SHIN_DOT:"ׁ",HOLAM:"ֹ",DAGESH:"ּ",QUBUTZ:"ֻ",SHEVA:"ְ",QAMATZ_QATAN:"ׇ"
+
+TEAMIM = ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', 'ֽ']   
+BASE_CHAR = "@"
+
 def remove_nikud(text):
     nikud_list = ["ֱ","ֲ","ֳ","ִ","ֵ","ֶ","ַ","ָ","ׂ","ׁ","ֹ","ּ","ֻ","ְ","ׇ"]
     for nikud in nikud_list:
         text = text.replace(nikud, "")
     return text
 
-# Teamim: ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', 'ֽ']
-def just_teamim(text, base_char = "@"):
-    teamim = ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', 'ֽ', '׀']
+def just_teamim(text, base_char = BASE_CHAR):
     new_text = ""
     for char in text:
-        if char in teamim:
+        if char in TEAMIM:
             new_text += base_char
             new_text += char
-            
+        elif char == " ":
+            new_text += " "
     return new_text
 
-
+def remove_makav(text):
+    makav_list = ["-","־"]
+    for makav in makav_list:
+        text = text.replace(makav, " ")
+    return text
+    
 # remove nikud and teamim from a string
 def remove_nikud_and_teamim(text):
     nikud_and_teamim_list = ["ֱ","ֲ","ֳ","ִ","ֵ","ֶ","ַ","ָ","ׂ","ׁ","ֹ","ּ","ֻ","ְ","ׇ", '֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', 'ֽ','׀']
