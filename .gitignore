@@ -21,3 +21,4 @@ train_data.json
 test_data.json
 
 slice_long_data/links_for_audio
+slice_long_data/texts_without_cantillations

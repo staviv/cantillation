@@ -11,6 +11,7 @@ books_data = [
 
 
 def get_chapter_string(book_name, chapter_number):
+    chapter_number = str(chapter_number)
     # Check if book_name is a valid sefaria_name
     for book in books_data:
         if book_name == book["name"]:
@@ -23,7 +24,12 @@ def get_chapter_string(book_name, chapter_number):
     api_url = f"https://www.sefaria.org/api/texts/{sefaria_name}.{chapter_number}"
 
     # Fetch data from the API
-    response = requests.get(api_url)
+    while True:
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            break
+        else:
+            print(f"Failed to fetch data from the API. The response status code is {response.status_code}. Retrying...")
 
     # Check if the request was successful
     if response.status_code == 200:
@@ -44,9 +50,12 @@ def get_chapter_string(book_name, chapter_number):
 
 if __name__ == "__main__":
     # Example usage
-    chapter_string = get_chapter_string("Genesis", 1)
+    chapter_string = get_chapter_string("Genesis", 27)
     if chapter_string is not None:
         with open("Genesis.1.txt", "w", encoding="utf-8") as file:
             file.write(chapter_string)
     else:
         print("Failed to fetch data from the API")
+        
+
+
