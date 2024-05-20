@@ -8,10 +8,10 @@
     <em>A model to accurately transcribe Torah readings with cantillation marks, enabling self-practice and identifying mistakes.</em>
 </p>
 <p align="center">
-	<img src="https://img.shields.io/github/license/staviv/cantillation?style=flat&color=0080ff" alt="license">
+	<!-- <img src="https://img.shields.io/github/license/staviv/cantillation?style=flat&color=0080ff" alt="license"> -->
 	<img src="https://img.shields.io/github/last-commit/staviv/cantillation?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
 	<img src="https://img.shields.io/github/languages/top/staviv/cantillation?style=flat&color=0080ff" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/staviv/cantillation?style=flat&color=0080ff" alt="repo-language-count">
+	<!-- <img src="https://img.shields.io/github/languages/count/staviv/cantillation?style=flat&color=0080ff" alt="repo-language-count"> -->
 <p>
 <p align="center">
 		<em>Developed with the software and tools below.</em>
@@ -37,7 +37,7 @@
 >   - [🤖 Running The Model on Telegram Bot](#-running-the-model-on-telegram-bot)
 > - [🛠 Future Work](#-future-work)
 > - [🤝 Contributing](#-contributing)
-> - [📄 License](#-license)
+<!-- > - [📄 License](#-license) -->
 > - [👏 Acknowledgments](#-acknowledgments)
 
 ---
@@ -223,11 +223,22 @@ You can create your bot using [@botfather](https://core.telegram.org/bots/tutori
 
 Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. 
 
+<!-- ---
+
+## 📄 License -->
+
+
 ---
 
 ## 👏 Acknowledgments
 
-- List any resources, contributors, inspiration, etc. here.
+We would like to thank the following organizations and individuals for their contributions to this project:
+- [OpenAI](https://openai.com/)
+- [PocketTorah](https://github.com/rneiss/PocketTorah)
+- [Sefaria](https://www.sefaria.org/)
+- [Wikisource](https://wikisource.org/)
+- [Hugging Face](https://huggingface.co/)
+- [Telegram](https://telegram.org/)
 
 [**Return**](#-quick-links)
 
