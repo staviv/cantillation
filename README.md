@@ -36,8 +36,7 @@
 >   - [⚙️ Installation](#️-installation)
 >   - [🤖 Running The Model on Telegram Bot](#-running-the-model-on-telegram-bot)
 > - [🛠 Future Work](#-future-work)
-> - [🤝 Contributing](#-contributing)
-<!-- > - [📄 License](#-license) -->
+> - [🤝 Contributing](#-contributing)<!-- > - [📄 License](#-license) -->
 > - [👏 Acknowledgments](#-acknowledgments)
 
 ---
@@ -195,9 +194,8 @@ cd cantillation
 ```
 
 3. Install the dependencies:
-
 ```sh
-pip install -r requirements.txt
+pip install datasets>=2.6.1 pytorch>=2.2.0 transformers librosa jiwer evaluate>=0.30 gradio accelerate mutagen torchaudio
 ```
 
 
