@@ -1,4 +1,4 @@
-from tqdm import tqdm
+
 Genesis = ["Genesis.1.1-2.3", "Genesis.2.4-2.19", "Genesis.2.20-3.21", "Genesis.3.22-4.18", "Genesis.4.19-4.22", "Genesis.4.23-5.24", "Genesis.5.25-6.8", "Genesis.6.9-6.22", "Genesis.7.1-7.16", "Genesis.7.17-8.14", "Genesis.8.15-9.7", "Genesis.9.8-9.17", "Genesis.9.18-10.32", "Genesis.11.1-11.32", "Genesis.12.1-12.13", "Genesis.12.14-13.4", "Genesis.13.5-13.18", "Genesis.14.1-14.20", "Genesis.14.21-15.6", "Genesis.15.7-17.6", "Genesis.17.7-17.27", "Genesis.18.1-18.14", "Genesis.18.15-18.33", "Genesis.19.1-19.20", "Genesis.19.21-21.4", "Genesis.21.5-21.21", "Genesis.21.22-21.34", "Genesis.22.1-22.24", "Genesis.23.1-23.16", "Genesis.23.17-24.9", "Genesis.24.10-24.26", "Genesis.24.27-24.52", "Genesis.24.53-24.67", "Genesis.25.1-25.11", "Genesis.25.12-25.18", "Genesis.25.19-26.5", "Genesis.26.6-26.12", "Genesis.26.13-26.22", "Genesis.26.23-26.29", "Genesis.26.30-27.27", "Genesis.27.28-28.4", "Genesis.28.5-28.9", "Genesis.28.10-28.22", "Genesis.29.1-29.17", "Genesis.29.18-30.13", "Genesis.30.14-30.27", "Genesis.30.28-31.16", "Genesis.31.17-31.42", "Genesis.31.43-32.3", "Genesis.32.4-32.13", "Genesis.32.14-32.30", "Genesis.32.31-33.5", "Genesis.33.6-33.20", "Genesis.34.1-35.11", "Genesis.35.12-36.19", "Genesis.36.20-36.43", "Genesis.37.1-37.11", "Genesis.37.12-37.22", "Genesis.37.23-37.36", "Genesis.38.1-38.30", "Genesis.39.1-39.6", "Genesis.39.7-39.23", "Genesis.40.1-40.23", "Genesis.41.1-41.14", "Genesis.41.15-41.38", "Genesis.41.39-41.52", "Genesis.41.53-42.18", "Genesis.42.19-43.15", "Genesis.43.16-43.29", "Genesis.43.30-44.17", "Genesis.44.18-44.30", "Genesis.44.31-45.7", "Genesis.45.8-45.18", "Genesis.45.19-45.27", "Genesis.45.28-46.27", "Genesis.46.28-47.10", "Genesis.47.11-47.27", "Genesis.47.28-48.9", "Genesis.48.10-48.16", "Genesis.48.17-48.22", "Genesis.49.1-49.18", "Genesis.49.19-49.26", "Genesis.49.27-50.20", "Genesis.50.21-50.26"]
 Exodus = ["Exodus.1.1-1.17", "Exodus.1.18-2.10", "Exodus.2.11-2.25", "Exodus.3.1-3.15", "Exodus.3.16-4.17", "Exodus.4.18-4.31", "Exodus.5.1-6.1", "Exodus.6.2-6.13", "Exodus.6.14-6.28", "Exodus.6.29-7.7", "Exodus.7.8-8.6", "Exodus.8.7-8.18", "Exodus.8.19-9.16", "Exodus.9.17-9.35", "Exodus.10.1-10.11", "Exodus.10.12-10.23", "Exodus.10.24-11.3", "Exodus.11.4-12.20", "Exodus.12.21-12.28", "Exodus.12.29-12.51", "Exodus.13.1-13.16", "Exodus.13.17-14.8", "Exodus.14.9-14.14", "Exodus.14.15-14.25", "Exodus.14.26-15.26", "Exodus.15.27-16.10", "Exodus.16.11-16.36", "Exodus.17.1-17.16", "Exodus.18.1-18.12", "Exodus.18.13-18.23", "Exodus.18.24-18.27", "Exodus.19.1-19.6", "Exodus.19.7-19.19", "Exodus.19.20-20.14", "Exodus.20.15-20.23", "Exodus.21.1-21.19", "Exodus.21.20-22.3", "Exodus.22.4-22.26", "Exodus.22.27-23.5", "Exodus.23.6-23.19", "Exodus.23.20-23.25", "Exodus.23.26-24.18", "Exodus.25.1-25.16", "Exodus.25.17-25.30", "Exodus.25.31-26.14", "Exodus.26.15-26.30", "Exodus.26.31-26.37", "Exodus.27.1-27.8", "Exodus.27.9-27.19", "Exodus.27.20-28.12", "Exodus.28.13-28.30", "Exodus.28.31-28.43", "Exodus.29.1-29.18", "Exodus.29.19-29.37", "Exodus.29.38-29.46", "Exodus.30.1-30.10", "Exodus.30.11-31.17", "Exodus.31.18-33.11", "Exodus.33.12-33.16", "Exodus.33.17-33.23", "Exodus.34.1-34.9", "Exodus.34.10-34.26", "Exodus.34.27-34.35", "Exodus.35.1-35.20", "Exodus.35.21-35.29", "Exodus.35.30-36.7", "Exodus.36.8-36.19", "Exodus.36.20-37.16", "Exodus.37.17-37.29", "Exodus.38.1-38.20", "Exodus.38.21-39.1", "Exodus.39.2-39.21", "Exodus.39.22-39.32", "Exodus.39.33-39.43", "Exodus.40.1-40.16", "Exodus.40.17-40.27", "Exodus.40.28-40.38"]
 Leviticus = ["Leviticus.1.1-13", "Leviticus.1.14-2.6", "Leviticus.2.7-16", "Leviticus.3.1-17", "Leviticus.4.1-26", "Leviticus.4.27-5.10", "Leviticus.5.11-26", "Leviticus.6.1-11", "Leviticus.6.12-7.10", "Leviticus.7.11-38", "Leviticus.8.1-13", "Leviticus.8.14-21", "Leviticus.8.22-29", "Leviticus.8.30-36", "Leviticus.9.1-16", "Leviticus.9.17-23", "Leviticus.9.24-10.11", "Leviticus.10.12-15", "Leviticus.10.16-20", "Leviticus.11.1-32", "Leviticus.11.33-47", "Leviticus.12.1-13.5", "Leviticus.13.6-17", "Leviticus.13.18-23", "Leviticus.13.24-28", "Leviticus.13.29-39", "Leviticus.13.40-54", "Leviticus.13.55-59", "Leviticus.14.1-12", "Leviticus.14.13-20", "Leviticus.14.21-32", "Leviticus.14.33-53", "Leviticus.14.54-15.15", "Leviticus.15.16-28", "Leviticus.15.29-33", "Leviticus.16.1-17", "Leviticus.16.18-24", "Leviticus.16.25-34", "Leviticus.17.1-7", "Leviticus.17.8-18.5", "Leviticus.18.6-21", "Leviticus.18.22-30", "Leviticus.19.1-14", "Leviticus.19.15-22", "Leviticus.19.23-32", "Leviticus.19.33-37", "Leviticus.20.1-7", "Leviticus.20.8-22", "Leviticus.20.23-27", "Leviticus.21.1-15", "Leviticus.21.16-22.16", "Leviticus.22.17-33", "Leviticus.23.1-22", "Leviticus.23.23-32", "Leviticus.23.33-44", "Leviticus.24.1-23", "Leviticus.25.1-13", "Leviticus.25.14-18", "Leviticus.25.19-24", "Leviticus.25.25-28", "Leviticus.25.29-38", "Leviticus.25.39-46", "Leviticus.25.47-26.2", "Leviticus.26.3-5", "Leviticus.26.6-9", "Leviticus.26.10-46", "Leviticus.27.1-15", "Leviticus.27.16-21", "Leviticus.27.22-28", "Leviticus.27.29-34"]
@@ -9,6 +9,22 @@ Deuteronomy = ["Deuteronomy.1.1-10", "Deuteronomy.1.11-21", "Deuteronomy.1.22-38
 # The commented out line is the real aliyot, but in pokethorah it's different (only one verse difference)
 
 
+# Grouping each 7 aliyot into a single parsha and adding it to dictionary
+def grouping(book):
+    parshot = {}
+    parsha = 1
+    for i in range(0, len(book), 7):
+        parshot["Parsha " + str(parsha)] = book[i:i+7]
+        parsha += 1
+
+    # # Printing the dictionary
+    # for key, value in parshot.items():
+    #     print(key, ":", value)
+    
+    # print("\n")
+    
+    return parshot
+
 aliot_list = []
 # dicts = []
 for i in ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy"]:
@@ -16,65 +32,79 @@ for i in ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy"]:
     aliot_list+=eval(i)
 
 
-import requests
-import re
+
+
+# Compare the aliyot to the aliyah.json file. that looks like this:
+import json
+# find json encoding
+import chardet
+def load_json_with_any_encoding(file):
+    with open(file, 'rb') as f:
+        result = chardet.detect(f.read())  # or readline if the file is large
+    return json.load(open(file, encoding=result['encoding']))
+
+# loading the aliyah.json file
+data = load_json_with_any_encoding("aliyah.json")
 
 
 
-def get_sefaria_text_using_api(command):
     
-    # Construct the API URL for the specified book and chapter
-    api_url = f"https://www.sefaria.org/api/v3/texts/{command}"
+# getting the parshot from the json file
+parshot = data["parshiot"]["parsha"]
 
-    # Fetch data from the API
-    response = requests.get(api_url)
+# converting to the same format as we have 
+# (perek.pasuk-perek.pasuk [and if it's the same perek then only pasuk])
+# and returning the parshot as a list of strings like ths: ["1.1-2.3", "2.4-2.19", ...]
+# we want it without the repiting of maftir
+def convert_pokethorah_aliyah_to_our_format(parshot):
+    parshot_list = []
+    for parsha in parshot:
+        aliyot = parsha["fullkriyah"]["aliyah"]
+        for aliyah in aliyot:
+            if aliyah["_num"] == "M":
+                continue
+            if aliyah["_begin"].split(":")[0] == aliyah["_end"].split(":")[0]:
+                parshot_list.append(f"{aliyah['_begin'].replace(':', '.')}-{aliyah['_end'].split(':')[1]}")
+            else:
+                parshot_list.append(f"{aliyah['_begin'].replace(':', '.')}-{aliyah['_end'].replace(':', '.')}")
+    return parshot_list
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        data = response.json()
+parshot_pokethorah_aliyah = convert_pokethorah_aliyah_to_our_format(parshot)
+print(parshot_pokethorah_aliyah)
 
-        # Extract the 'he' key from the data
-        he_list = data.get('versions', [])[0].get('text', [])
+def convert_our_format_to_the_list_format(aliot_list):
+    # ['Genesis.1.1-2.3', 'Genesis.2.4-2.19', ...] -> ['1.1-2.3', '2.4-2.19', ...]
+    parshot_our_format = []
+    for parsha in aliot_list:
+        aliah = parsha.split(".")[1:]
+        # remove perk num of the end if it's the same as the beginning perek
+        if len(aliah) == 3 and aliah[0] == aliah[1].split("-")[1]:
+            aliah[1] = aliah[1].split("-")[0] + "-"  + aliah[2]
+            aliah = aliah[:2]    
+        aliah = ".".join(aliah)
+        parshot_our_format.append(aliah)
         
-        # Concatenate the list of lists into a single list
-        if type(he_list[0]) == list:
-            he_list = [item for sublist in he_list for item in sublist]
-        # Concatenate the list into a single string separated by spaces
-        he_string = '\n'.join(he_list)
-        # Replace some special characters with spaces
-        he_string = he_string.replace('  ', ' ').replace("""&nbsp;<span class="mam-spi-pe">{פ}</span><br>""", """ """).replace("""&thinsp;׀&thinsp;""", """׀""")
-        # Get the Qere (how it is read) from the string
-        # replace the qere. "<span class="mam-kq-q">[תְנִיא֔וּן]</span></span>" -> "תְנִיא֔וּן"
-        he_string = re.sub(r'<span class="mam-kq-q">\[(.*?)\]</span></span>', r'\1', he_string)
-        # replace the ketiv. "<span class="mam-kq"><span class="mam-kq-k">(תנואון)</span>" -> ""
-        he_string = re.sub(r'<span class="mam-kq"><span class="mam-kq-k">\((.*?)\)</span>', r'', he_string)
-        # Remove all HTML tags from the string: <...>, </...>, and &...;
-        he_string = re.sub(r'<.*?>', '', he_string)
-        he_string = re.sub(r'&.*?;', '', he_string)
-        # Remove all brackets from the string: [...], {....}, and (....)
-        he_string = re.sub(r'\[.*?\]', '', he_string)
-        he_string = re.sub(r'\{.*?\}', '', he_string)
-        he_string = re.sub(r'\(.*?\)', '', he_string)
-        
-        
-        return he_string
-    else:
-        return None
+    return parshot_our_format
 
 
-parsha_names = ["Bereshit", "Noach", "LechLecha", "Vayera", "ChayeiSara", "Toldot", "Vayetzei", "Vayishlach", "Vayeshev", "Miketz", "Vayigash", "Vayechi", "Shemot", "Vaera", "Bo", "Beshalach", "Yitro", "Mishpatim", "Terumah", "Tetzaveh", "KiTisa", "Vayakhel", "Pekudei", "Vayikra", "Tzav", "Shmini", "Tazria", "Metzora", "AchreiMot", "Kedoshim", "Emor", "Behar", "Bechukotai", "Bamidbar", "Nasso", "Behaalotcha", "Shlach", "Korach", "Chukat", "Balak", "Pinchas", "Matot", "Masei", "Devarim", "Vaethanan", "Eikev", "Reeh", "Shoftim", "KiTeitzei", "KiTavo", "Nitzavim", "Vayeilech", "Haazinu", "VezotHaberakhah"]
+print("\n"*5)
+
+parshot_our_format = convert_our_format_to_the_list_format(aliot_list)
+
+# comparing the two lists
+for i in range(len(parshot_pokethorah_aliyah)):
+    if parshot_pokethorah_aliyah[i] != parshot_our_format[i]:
+        print(i,parshot_pokethorah_aliyah[i], parshot_our_format[i])
 
 
-# Save the text of the aliyot to files "parsha_name-aliyah_number.txt" (Bereshit-1.txt) in the "aliyot_text" folder
-def save_aliyot_text_to_files(aliyot, parsha_names):
-    # initialize tqdm progress bar
-    bar = tqdm(total=len(parsha_names)*7)
-    for i, parsha in enumerate(parsha_names):
-        for j in range(1, 8):
-            text = get_sefaria_text_using_api(aliyot[i*7+j-1])
-            with open(f"text/{parsha_names[i]}-{j}.txt", "w", encoding="utf-8") as f:
-                f.write(text)
-            bar.update(1)
-    bar.close()
-save_aliyot_text_to_files(aliot_list, parsha_names)
+# Conclusion:
+# 294 33.1-9 33.1-10
+# 295 33.10-49 33.11-49
+
+# print the 33rd aliyah in the aliyot list using sefaria
+
+# In both cases it refers to the same mistake in data from Pukhtorah in the book of Numbers, Parshah Mas'ei.
+# The first aliyah should end at verse 10 and not 9
+# (and therefore the second aliyah will also start at verse 11 and not 10)
+# I checked this and it appears that Pukhtorah's audio matches their text
 
