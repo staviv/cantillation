@@ -10,7 +10,7 @@ whisper-*
 03_dataset.json
 HF_token.txt
 Telegram-bot-token.txt
-
+data_poket_torah
 missing_filesashkenazi.json
 missing_filesbavly.json
 missing_filesmaroko.json
@@ -22,3 +22,5 @@ test_data.json
 
 slice_long_data/links_for_audio
 slice_long_data/texts_without_cantillations
+
+download and process the data
