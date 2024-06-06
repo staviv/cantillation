@@ -23,7 +23,7 @@ from nikud_and_teamim import just_teamim,remove_nikud
 
 path = "."
 class parashat_hashavua_dataset:
-        def __init__(self, new_data, few_data=False, train = True ,validation=False, test=False, num_of_words_in_sample = 15, random = False, prob_for_num_of_parts=[], nusachim=["ashkenazi"], augment=False, load_cantillationless_data = False):
+        def __init__(self, new_data, processor, few_data=False, train = True ,validation=False, test=False, num_of_words_in_sample = 15, random = False, prob_for_num_of_parts=[], nusachim=["ashkenazi"], augment=False, load_cantillationless_data = False):
                 self.data = []
                 self.few_data = few_data
                 self.load_data(new_data, train, validation, test, nusachim=nusachim, load_cantillationless_data=load_cantillationless_data)
@@ -38,6 +38,7 @@ class parashat_hashavua_dataset:
                 self.is_eval_set = validation or test
                 self.prob_for_num_of_parts = prob_for_num_of_parts if prob_for_num_of_parts else [1/self.num_of_words_in_sample for i in range(self.num_of_words_in_sample)]
                 self.augment = augment
+                self.processor = processor
                 # prob_for_num_of_parts - the probability to take 1, 2, 3, etc. parts.
                 # example of prob_for_num_of_parts: [0.1, 0.2, 0.3, 0.4] means that the probability to take 1 part is 0.1, 2 parts is 0.2, etc.
 
@@ -60,10 +61,10 @@ class parashat_hashavua_dataset:
                         audio = self.augment_audio(audio)
 
                 # compute log-Mel input features from input audio array
-                input_features = processor.feature_extractor(audio, sampling_rate=SR).input_features[0]
+                input_features = self.processor.feature_extractor(audio, sampling_rate=SR).input_features[0]
                 # compute input length of audio sample in seconds
                 input_length = len(audio) / SR
-                # processor.tokenizer.decode(text_tokens)
+                # self.processor.tokenizer.decode(text_tokens)
                 return {"input_features": input_features, "input_length": input_length, "labels": text_tokens}
 
         def __len__(self):
@@ -81,7 +82,7 @@ class parashat_hashavua_dataset:
                 audio = np.concatenate(sequence['audio'].values)
                 text = " ".join(sequence['text'])
                 audio_len = len(audio) / 16000
-                text_tokens = processor.tokenizer.encode(text)
+                text_tokens = self.processor.tokenizer.encode(text)
                 text_len = len(text_tokens)
                 return sequence, audio, text, audio_len, text_tokens, text_len
         
