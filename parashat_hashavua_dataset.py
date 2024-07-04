@@ -11,7 +11,7 @@ from transformers import WhisperProcessor
 import mutagen.mp3
 from tqdm import tqdm
 import json
-#from audiomentations import Compose, AddGaussianNoise, TimeStretch, PitchShift, Shift, RoomSimulator
+from audiomentations import Compose, AddGaussianNoise, TimeStretch, PitchShift, Shift, RoomSimulator
 import srt
 import re
 from IPython.display import clear_output
@@ -89,6 +89,16 @@ class parashat_hashavua_dataset:
         def load_data(self,new_data , train, validation, test, nusachim=["ashkenazi"], load_cantillationless_data = False): 
                 if load_cantillationless_data:
                         self.load_data_srt_mp3(train, validation, test)
+                elif new_data == "other":
+                        nusachim = ["audio"]
+                        if train:
+                                self.load_data_new(nusachim, train=True, validation=False, test=False, other=True)
+                        elif validation:
+                                self.load_data_new(nusachim, train=False, validation=True, test=False, other=True)
+                        elif test:
+                                self.load_data_new(nusachim, train=False, validation=False, test=True, other=True)
+                        else:
+                                print("Invalid input. Please provide a valid input.")
                 elif new_data:
                         if  (train==True and validation==False and test==False):
                                 self.load_data_new(nusachim,train=True, validation=False, test=False)
@@ -102,7 +112,10 @@ class parashat_hashavua_dataset:
                         self.load_data_old(validation)
 
         # methods for the new data
-        def is_mp3_and_legal_length(self, filename, min_length=0.2, max_length=20):
+        def is_mp3_and_legal_length(self, filename, min_length=0.2, max_length=30):
+                if filename.endswith(".wav"):
+                        return True # we don't check the wav files for now
+                
                 try:
                         audio = mutagen.mp3.MP3(filename)
                         if audio.info.length < min_length or audio.info.length > max_length:
@@ -121,21 +134,34 @@ class parashat_hashavua_dataset:
 
         def is_text_and_audio_pair_legal(self, text, filename):
                 if not self.is_text_with_nikud(text):
+                        print("the text doesn't have nikud: ", text)
                         return False
                 if not self.is_mp3_and_legal_length(filename):
+                        print("the audio is not mp3 or the length is not legal: ", filename)
                         return False
                 return True
 
-        def load_data_new(self, nusachim, train, validation, test):
+        def load_data_new(self, nusachim, train, validation, test, other=False):
                 # Load dataset.json
-                if train:
-                        file_path = os.path.join(JSONS_FOLDER, 'train_data.json')
-                elif validation:
-                        file_path = os.path.join(JSONS_FOLDER, 'validation_data.json')
-                elif test:
-                        file_path = os.path.join(JSONS_FOLDER, 'test_data.json')  
-                else:
-                        file_path = os.path.join(JSONS_FOLDER, '03_dataset.json') 
+                if other:
+                        nusachim = ["audio"]
+                        if train:
+                                file_path = os.path.join(JSONS_FOLDER, 'train_data_other.json')
+                        elif validation:
+                                file_path = os.path.join(JSONS_FOLDER, 'validation_data_other.json')
+                        elif test:
+                                file_path = os.path.join(JSONS_FOLDER, 'test_data.json')  
+                        else:
+                                file_path = os.path.join(JSONS_FOLDER, '03_dataset.json') 
+                else: 
+                        if train:
+                                file_path = os.path.join(JSONS_FOLDER, 'train_data.json')
+                        elif validation:
+                                file_path = os.path.join(JSONS_FOLDER, 'validation_data.json')
+                        elif test:
+                                file_path = os.path.join(JSONS_FOLDER, 'test_data.json')  
+                        else:
+                                file_path = os.path.join(JSONS_FOLDER, '03_dataset.json') 
 
                 with open(file_path, 'r', encoding='utf-8') as f:
                         predataset = json.load(f)
@@ -520,11 +546,37 @@ class parashat_hashavua_dataset:
                 each augmentation is done with random values.
                 """
                 augment = Compose([
-                    AddGaussianNoise(min_amplitude=0.001, max_amplitude=0.03, p=0.5),
-                    TimeStretch(min_rate=0.8, max_rate=3, p=1),
+                    AddGaussianNoise(min_amplitude=0.001, max_amplitude=0.05, p=0.5),
+                    TimeStretch(min_rate=0.8, max_rate=4, p=1),
                     PitchShift(min_semitones=-8, max_semitones=8, p=1),
                     Shift(min_shift=0, max_shift=2, shift_unit="seconds", rollover=False),
                     RoomSimulator(),
                 ])
                 
                 return audio
+
+
+class CombinedDataset:
+    """
+    This class combines multiple datasets and provides data from them sequentially.
+    """
+    def __init__(self, *datasets):
+        self.datasets = datasets
+        self.dataset_cycle = cycle(self.datasets)
+        self.current_dataset = next(self.dataset_cycle)
+        self.current_index = 0
+
+    def __getitem__(self, index):
+        # Check if we need to switch to the next dataset
+        if self.current_index >= len(self.current_dataset):
+            self.current_dataset = next(self.dataset_cycle)
+            self.current_index = 0
+
+        # Get data from the current dataset
+        data = self.current_dataset[self.current_index]
+        self.current_index += 1
+        return data
+
+    def __len__(self):
+        # Return the total length of all datasets
+        return sum(len(dataset) for dataset in self.datasets)

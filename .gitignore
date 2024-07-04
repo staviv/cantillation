@@ -1,20 +1,11 @@
 download the data.py
-relevant_data.json
-text
-text_val
-audio
-time
-audio_files
 .ipynb_checkpoints
 whisper-*
 03_dataset.json
 HF_token.txt
 Telegram-bot-token.txt
 data_poket_torah
-missing_filesashkenazi.json
-missing_filesbavly.json
-missing_filesmaroko.json
-missing_filesyerushalmi.json
+missing_files*.json
 __pycache__
 validation_data.json
 train_data.json
@@ -23,4 +14,8 @@ test_data.json
 slice_long_data/links_for_audio
 slice_long_data/texts_without_cantillations
 
-download and process the data
+
+audio_files*
+testLLM
+missing_filesaudio.json
+download and process the data/slice long data/semi automatic cut/text
