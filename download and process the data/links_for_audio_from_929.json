@@ -1,0 +1,787 @@
+{
+    "books": [
+        {
+            "name": "Bereshit",
+            "number": 1,
+            "sefaria_name": "Genesis",
+            "chapters": [
+                {
+                    "chapter_number": 1,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1539849015/1_Bereshit_1_fixd_mhpenf.mp3"
+                },
+                {
+                    "chapter_number": 2,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293009/2_Bereshit_2_fixd_1_qsewr7.mp3"
+                },
+                {
+                    "chapter_number": 3,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293009/3_Bereshit_3_fixd_l0lims.mp3"
+                },
+                {
+                    "chapter_number": 4,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293015/4_Bereshit_4_fixd_lavmwi.mp3"
+                },
+                {
+                    "chapter_number": 5,
+                    "link": "http://bible.929.org.il/audio/5.Bereshit_5.mp3"
+                },
+                {
+                    "chapter_number": 6,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293007/6_Bereshit_6_fixd_suv66f.mp3"
+                },
+                {
+                    "chapter_number": 7,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293204/7_Bereshit_7_fixd_l90jqr.mp3"
+                },
+                {
+                    "chapter_number": 8,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293200/8_Bereshit_8_fixd_zmnxlp.mp3"
+                },
+                {
+                    "chapter_number": 9,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293198/9_Bereshit_9_fixd_vwjtgh.mp3"
+                },
+                {
+                    "chapter_number": 10,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293198/10_Bereshit_10_fixd_ikyko4.mp3"
+                },
+                {
+                    "chapter_number": 11,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293202/11_Bereshit_11_fixd_w1qanl.mp3"
+                },
+                {
+                    "chapter_number": 12,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293181/12_Bereshit_12_fixd_iqxbe3.mp3"
+                },
+                {
+                    "chapter_number": 13,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293181/13_Bereshit_13_fixd_qighyw.mp3"
+                },
+                {
+                    "chapter_number": 14,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293181/14_Bereshit_14_fixd_pief8l.mp3"
+                },
+                {
+                    "chapter_number": 15,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293179/15_Bereshit_15_fixd_buhnzq.mp3"
+                },
+                {
+                    "chapter_number": 16,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541080406/16_Bereshit_16_fixd_lkfz4v.mp3"
+                },
+                {
+                    "chapter_number": 17,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293174/17_Bereshit_17_fixd_afthpg.mp3"
+                },
+                {
+                    "chapter_number": 18,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293175/18_Bereshit_18_fixd_1_appsju.mp3"
+                },
+                {
+                    "chapter_number": 19,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293155/19_Bereshit_19_fixd_hnv8k2.mp3"
+                },
+                {
+                    "chapter_number": 20,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293145/20_Bereshit_20_fixd_bukm4d.mp3"
+                },
+                {
+                    "chapter_number": 21,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293148/21_Bereshit_21_fixd_z9muyj.mp3"
+                },
+                {
+                    "chapter_number": 22,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293152/22_Bereshit_22_fixd_wdtrp6.mp3"
+                },
+                {
+                    "chapter_number": 23,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293123/23_Bereshit_23_fixd_ctjewj.mp3"
+                },
+                {
+                    "chapter_number": 24,
+                    "link": "https://reading.929.org.il/24.mp3"
+                },
+                {
+                    "chapter_number": 25,
+                    "link": "https://reading.929.org.il/25.mp3"
+                },
+                {
+                    "chapter_number": 26,
+                    "link": "https://reading.929.org.il/26.mp3"
+                },
+                {
+                    "chapter_number": 27,
+                    "link": "https://reading.929.org.il/27.mp3"
+                },
+                {
+                    "chapter_number": 28,
+                    "link": "https://reading.929.org.il/28.mp3"
+                },
+                {
+                    "chapter_number": 29,
+                    "link": "https://reading.929.org.il/29.mp3"
+                },
+                {
+                    "chapter_number": 30,
+                    "link": "http://bible.929.org.il/audio/30.Bereshit_30.mp3"
+                },
+                {
+                    "chapter_number": 31,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293091/31_Bereshit_31_fixd_u52dtn.mp3"
+                },
+                {
+                    "chapter_number": 32,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293066/32_Bereshit_32_fixd_fz6d6r.mp3"
+                },
+                {
+                    "chapter_number": 33,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293031/33_Bereshit_33_fixd_pdj129.mp3"
+                },
+                {
+                    "chapter_number": 34,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293005/34_Bereshit_34_fixd_opmvtp.mp3"
+                },
+                {
+                    "chapter_number": 35,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293053/35_Bereshit_35_fixd_osskn3.mp3"
+                },
+                {
+                    "chapter_number": 36,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293066/36_Bereshit_36_fixd_ttcfld.mp3"
+                },
+                {
+                    "chapter_number": 37,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293060/37_Bereshit_37_fixd_hwmwhb.mp3"
+                },
+                {
+                    "chapter_number": 38,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293039/38_Bereshit_38_fixd_kf5qxg.mp3"
+                },
+                {
+                    "chapter_number": 39,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540293030/39_Bereshit_39_fixd_xykk6a.mp3"
+                },
+                {
+                    "chapter_number": 40,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085661/40_Bereshit_40_fixd_agyrry.mp3"
+                },
+                {
+                    "chapter_number": 41,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085669/41_Bereshit_41_fixd_sp5x68.mp3"
+                },
+                {
+                    "chapter_number": 42,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085654/42_Bereshit_42_fixd_yw9hx1.mp3"
+                },
+                {
+                    "chapter_number": 43,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085654/43_Bereshit_43_fixd_obmoon.mp3"
+                },
+                {
+                    "chapter_number": 44,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085652/44_Bereshit_44_fixd_qnouxe.mp3"
+                },
+                {
+                    "chapter_number": 45,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085652/45_Bereshit_45_fixd_mh1i9l.mp3"
+                },
+                {
+                    "chapter_number": 46,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085653/46_Bereshit_46_fixd_rtdql2.mp3"
+                },
+                {
+                    "chapter_number": 47,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085654/47_Bereshit_47_fixd_io53ul.mp3"
+                },
+                {
+                    "chapter_number": 48,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085660/48_Bereshit_48_fixd_vcxjgp.mp3"
+                },
+                {
+                    "chapter_number": 49,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085662/49_Bereshit_49_fixd_mcui0f.mp3"
+                },
+                {
+                    "chapter_number": 50,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541085662/50_Bereshit_50_fixd_fbz0h2.mp3"
+                }
+            ]
+        },
+        {
+            "name": "Shemot",
+            "number": 2,
+            "sefaria_name": "Exodus",
+            "chapters": [
+                {
+                    "chapter_number": 1,
+                    "link": "http://bible.929.org.il/audio/51.Shmot_1.mp3"
+                },
+                {
+                    "chapter_number": 2,
+                    "link": "http://bible.929.org.il/audio/52.Shmot_2.mp3"
+                },
+                {
+                    "chapter_number": 3,
+                    "link": "http://bible.929.org.il/audio/53.Shmot_3.mp3"
+                },
+                {
+                    "chapter_number": 4,
+                    "link": "http://bible.929.org.il/audio/54.Shmot_4.mp3"
+                },
+                {
+                    "chapter_number": 5,
+                    "link": "http://bible.929.org.il/audio/55.Shmot_5..mp3"
+                },
+                {
+                    "chapter_number": 6,
+                    "link": "http://bible.929.org.il/audio/56.Shmot_6.mp3"
+                },
+                {
+                    "chapter_number": 7,
+                    "link": "http://bible.929.org.il/audio/57.Shmot_7.mp3"
+                },
+                {
+                    "chapter_number": 8,
+                    "link": "http://bible.929.org.il/audio/58.Shmot_8.mp3"
+                },
+                {
+                    "chapter_number": 9,
+                    "link": "http://bible.929.org.il/audio/59.Shmot_9.mp3"
+                },
+                {
+                    "chapter_number": 10,
+                    "link": "http://bible.929.org.il/audio/60.Shmot_10.mp3"
+                },
+                {
+                    "chapter_number": 11,
+                    "link": "http://bible.929.org.il/audio/61.Shmot_11.mp3"
+                },
+                {
+                    "chapter_number": 12,
+                    "link": "http://bible.929.org.il/audio/62.Shmot_12.mp3"
+                },
+                {
+                    "chapter_number": 13,
+                    "link": "http://bible.929.org.il/audio/63.Shmot_13.mp3"
+                },
+                {
+                    "chapter_number": 14,
+                    "link": "http://bible.929.org.il/audio/64.Shmot_14.mp3"
+                },
+                {
+                    "chapter_number": 15,
+                    "link": "http://bible.929.org.il/audio/65.Shmot_15.mp3"
+                },
+                {
+                    "chapter_number": 16,
+                    "link": "http://bible.929.org.il/audio/66.Shmot_16.mp3"
+                },
+                {
+                    "chapter_number": 17,
+                    "link": "http://bible.929.org.il/audio/67.Shmot_17.mp3"
+                },
+                {
+                    "chapter_number": 18,
+                    "link": "http://bible.929.org.il/audio/68.Shmot_18.mp3"
+                },
+                {
+                    "chapter_number": 19,
+                    "link": "http://bible.929.org.il/audio/69.Shmot_19.mp3"
+                },
+                {
+                    "chapter_number": 20,
+                    "link": "http://bible.929.org.il/audio/70.Shmot_20.mp3"
+                },
+                {
+                    "chapter_number": 21,
+                    "link": "http://bible.929.org.il/audio/71.Shmot_21.mp3"
+                },
+                {
+                    "chapter_number": 22,
+                    "link": "http://bible.929.org.il/audio/72.Shmot_22.mp3"
+                },
+                {
+                    "chapter_number": 23,
+                    "link": "http://bible.929.org.il/audio/73.Shmot_23.mp3"
+                },
+                {
+                    "chapter_number": 24,
+                    "link": "http://bible.929.org.il/audio/74.Shmot_24.mp3"
+                },
+                {
+                    "chapter_number": 25,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540439257/25_Shmot_25_fixed_o5ukur.mp3"
+                },
+                {
+                    "chapter_number": 26,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540439240/26_Shmot_26_fixed_vxx8cc.mp3"
+                },
+                {
+                    "chapter_number": 27,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540439235/27_Shmot_27_fixed_jvnoc0.mp3"
+                },
+                {
+                    "chapter_number": 28,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540925890/28_Shmot_28_fixd_gshfnh.mp3"
+                },
+                {
+                    "chapter_number": 29,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1540997042/29_Shmot_29_fixd_os8lej.mp3"
+                },
+                {
+                    "chapter_number": 30,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541351746/30_Shmot_30_fixd_z2polc.mp3"
+                },
+                {
+                    "chapter_number": 31,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541351742/31_Shmot_31_fixd_sctcwb.mp3"
+                },
+                {
+                    "chapter_number": 32,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541679586/32_Shmot_32_fixd_ak6n3w.mp3"
+                },
+                {
+                    "chapter_number": 33,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1541679582/33_Shmot_33_fixd_dvdiwv.mp3"
+                },
+                {
+                    "chapter_number": 34,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542195372/34_Shmot_34_fixd_o12c1k.mp3"
+                },
+                {
+                    "chapter_number": 35,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542195381/35_Shmot_35_fixd_av17o1.mp3"
+                },
+                {
+                    "chapter_number": 36,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542195347/36_Shmot_36_fixd_o9ekgx.mp3"
+                },
+                {
+                    "chapter_number": 37,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542195346/37_Shmot_37_fixd_niywlo.mp3"
+                },
+                {
+                    "chapter_number": 38,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542142438/38_Shmot_38_fixd_i0v3w3.mp3"
+                },
+                {
+                    "chapter_number": 39,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542142465/39_Shmot_39_fixd_jh7sst.mp3"
+                },
+                {
+                    "chapter_number": 40,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542142470/40_Shmot_40_fixd_d5evof.mp3"
+                }
+            ]
+        },
+        {
+            "name": "Vaikra",
+            "number": 3,
+            "sefaria_name": "Leviticus",
+            "chapters": [
+                {
+                    "chapter_number": 1,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542660295/1_Vayikra_1_fixd_1_maivyw.mp3"
+                },
+                {
+                    "chapter_number": 2,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542660285/2_Vayikra_2_fixd_1_qlklan.mp3"
+                },
+                {
+                    "chapter_number": 3,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542490535/3_Vayikra_3_fixd_ns03z6.mp3"
+                },
+                {
+                    "chapter_number": 4,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542822367/4_Vayikra_4_fixd_vanqvl.mp3"
+                },
+                {
+                    "chapter_number": 5,
+                    "link": "https://res.cloudinary.com/project929/video/upload/v1542822365/5_Vayikra_5_fixd_rsjoy8.mp3"
+                },
+                {
+                    "chapter_number": 6,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/11/6-Vayikra-6-fixd.mp3"
+                },
+                {
+                    "chapter_number": 7,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/11/7-Vayikra-7-fixd.mp3"
+                },
+                {
+                    "chapter_number": 8,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/8-Vayikra-8-fixd.mp3"
+                },
+                {
+                    "chapter_number": 9,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/9-Vayikra-9-fixd.mp3"
+                },
+                {
+                    "chapter_number": 10,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/10-Vayikra-10-fixd.mp3"
+                },
+                {
+                    "chapter_number": 11,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/11-Vayikra-11-fixd.mp3"
+                },
+                {
+                    "chapter_number": 12,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/12-Vayikra-12-fixd.mp3"
+                },
+                {
+                    "chapter_number": 13,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/13-Vayikra-13-fixd.mp3"
+                },
+                {
+                    "chapter_number": 14,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2018/12/14-Vayikra-14-fixd.mp3"
+                },
+                {
+                    "chapter_number": 15,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/01/Vayikra-15-fixd.mp3"
+                },
+                {
+                    "chapter_number": 16,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/01/Vayikra-16-fixd.mp3"
+                },
+                {
+                    "chapter_number": 17,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/01/Vayikra-17-fixd.mp3"
+                },
+                {
+                    "chapter_number": 18,
+                    "link": "https://reading.929.org.il/108.mp3"
+                },
+                {
+                    "chapter_number": 19,
+                    "link": "https://reading.929.org.il/109.mp3"
+                },
+                {
+                    "chapter_number": 20,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/01/Vayikra-20-fixd.mp3"
+                },
+                {
+                    "chapter_number": 21,
+                    "link": "http://bible.929.org.il/audio/111.Vaikra_21.mp3"
+                },
+                {
+                    "chapter_number": 22,
+                    "link": "http://bible.929.org.il/audio/112.Vaikra_22.mp3"
+                },
+                {
+                    "chapter_number": 23,
+                    "link": "http://bible.929.org.il/audio/113.Vaikra_23.mp3"
+                },
+                {
+                    "chapter_number": 24,
+                    "link": "http://bible.929.org.il/audio/114.Vaikra_24.mp3"
+                },
+                {
+                    "chapter_number": 25,
+                    "link": "http://bible.929.org.il/audio/115.Vaikra_25.mp3"
+                },
+                {
+                    "chapter_number": 26,
+                    "link": "http://bible.929.org.il/audio/116.Vaikra_26.mp3"
+                },
+                {
+                    "chapter_number": 27,
+                    "link": "http://bible.929.org.il/audio/117.Vaikra_27.mp3"
+                }
+            ]
+        },
+        {
+            "name": "Bamidbar",
+            "number": 4,
+            "sefaria_name": "Numbers",
+            "chapters": [
+                {
+                    "chapter_number": 1,
+                    "link": "http://bible.929.org.il/audio/118.Bamidbar_1.mp3"
+                },
+                {
+                    "chapter_number": 2,
+                    "link": "http://bible.929.org.il/audio/119.Bamidbar_2.mp3"
+                },
+                {
+                    "chapter_number": 3,
+                    "link": "http://bible.929.org.il/audio/120.Bamidbar_3.mp3"
+                },
+                {
+                    "chapter_number": 4,
+                    "link": "http://bible.929.org.il/audio/121.Bamidbar_4.mp3"
+                },
+                {
+                    "chapter_number": 5,
+                    "link": "http://bible.929.org.il/audio/122.Bamidbar_5.mp3"
+                },
+                {
+                    "chapter_number": 6,
+                    "link": "http://bible.929.org.il/audio/123.Bamidbar_6.mp3"
+                },
+                {
+                    "chapter_number": 7,
+                    "link": "http://bible.929.org.il/audio/124.Bamidbar_7.mp3"
+                },
+                {
+                    "chapter_number": 8,
+                    "link": "http://bible.929.org.il/audio/125.Bamidbar_8.mp3"
+                },
+                {
+                    "chapter_number": 9,
+                    "link": "http://bible.929.org.il/audio/126.mp3"
+                },
+                {
+                    "chapter_number": 10,
+                    "link": "http://bible.929.org.il/audio/127.mp3"
+                },
+                {
+                    "chapter_number": 11,
+                    "link": "http://bible.929.org.il/audio/128.mp3"
+                },
+                {
+                    "chapter_number": 12,
+                    "link": "http://bible.929.org.il/audio/129.mp3"
+                },
+                {
+                    "chapter_number": 13,
+                    "link": "http://bible.929.org.il/audio/130.mp3"
+                },
+                {
+                    "chapter_number": 14,
+                    "link": "http://bible.929.org.il/audio/131.mp3"
+                },
+                {
+                    "chapter_number": 15,
+                    "link": "http://bible.929.org.il/audio/132.mp3"
+                },
+                {
+                    "chapter_number": 16,
+                    "link": "http://bible.929.org.il/audio/133.mp3"
+                },
+                {
+                    "chapter_number": 17,
+                    "link": "http://bible.929.org.il/audio/134.mp3"
+                },
+                {
+                    "chapter_number": 18,
+                    "link": "http://bible.929.org.il/audio/135.mp3"
+                },
+                {
+                    "chapter_number": 19,
+                    "link": "http://bible.929.org.il/audio/136.mp3"
+                },
+                {
+                    "chapter_number": 20,
+                    "link": "http://bible.929.org.il/audio/137.mp3"
+                },
+                {
+                    "chapter_number": 21,
+                    "link": "http://bible.929.org.il/audio/138.mp3"
+                },
+                {
+                    "chapter_number": 22,
+                    "link": "http://bible.929.org.il/audio/139.mp3"
+                },
+                {
+                    "chapter_number": 23,
+                    "link": "http://bible.929.org.il/audio/140.mp3"
+                },
+                {
+                    "chapter_number": 24,
+                    "link": "http://bible.929.org.il/audio/141.Bamidbar_24.mp3"
+                },
+                {
+                    "chapter_number": 25,
+                    "link": "http://bible.929.org.il/audio/142.Bamidbar_25.mp3"
+                },
+                {
+                    "chapter_number": 26,
+                    "link": "http://bible.929.org.il/audio/143.Bamidbar_26.mp3"
+                },
+                {
+                    "chapter_number": 27,
+                    "link": "http://bible.929.org.il/audio/144.Bamidbar_27.mp3"
+                },
+                {
+                    "chapter_number": 28,
+                    "link": "http://bible.929.org.il/audio/145.Bamidbar_28.mp3"
+                },
+                {
+                    "chapter_number": 29,
+                    "link": "http://bible.929.org.il/audio/146.Bamidbar_29.mp3"
+                },
+                {
+                    "chapter_number": 30,
+                    "link": "http://bible.929.org.il/audio/147.Bamidbar_30.mp3"
+                },
+                {
+                    "chapter_number": 31,
+                    "link": "http://bible.929.org.il/audio/148.Bamidbar_31.mp3"
+                },
+                {
+                    "chapter_number": 32,
+                    "link": "http://bible.929.org.il/audio/149.Bamidbar_32.mp3"
+                },
+                {
+                    "chapter_number": 33,
+                    "link": "http://bible.929.org.il/audio/150.Bamidbar_33.mp3"
+                },
+                {
+                    "chapter_number": 34,
+                    "link": "http://bible.929.org.il/audio/151.Bamidbar_34.mp3"
+                },
+                {
+                    "chapter_number": 35,
+                    "link": "http://bible.929.org.il/audio/152.Bamidbar_35.mp3"
+                },
+                {
+                    "chapter_number": 36,
+                    "link": "http://bible.929.org.il/audio/153.Bamidbar_36.mp3"
+                }
+            ]
+        },
+        {
+            "name": "Dvarim",
+            "number": 5,
+            "sefaria_name": "Deuteronomy",
+            "chapters": [
+                {
+                    "chapter_number": 1,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/1-Dvarim-1-fixd.mp3"
+                },
+                {
+                    "chapter_number": 2,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/2-Dvarim-2-fixd.mp3"
+                },
+                {
+                    "chapter_number": 3,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/3-Dvarim-3-fixd.mp3"
+                },
+                {
+                    "chapter_number": 4,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/4-Dvarim-4-fixd.mp3"
+                },
+                {
+                    "chapter_number": 5,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/5-Dvarim-5-fixd.mp3"
+                },
+                {
+                    "chapter_number": 6,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/6-Dvarim-6-fixd.mp3"
+                },
+                {
+                    "chapter_number": 7,
+                    "link": "http://bible.929.org.il/audio/160.Dvarim_7.mp3"
+                },
+                {
+                    "chapter_number": 8,
+                    "link": "http://bible.929.org.il/audio/161.Dvarim_8.mp3"
+                },
+                {
+                    "chapter_number": 9,
+                    "link": "http://bible.929.org.il/audio/162.Dvarim_9.mp3"
+                },
+                {
+                    "chapter_number": 10,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/10-Dvarim-10-fixd-1.mp3"
+                },
+                {
+                    "chapter_number": 11,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/02/11-Dvarim-11-fixd.mp3"
+                },
+                {
+                    "chapter_number": 12,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/12-Dvarim-12-fixd.mp3"
+                },
+                {
+                    "chapter_number": 13,
+                    "link": "http://bible.929.org.il/audio/166.Dvarim_13.mp3"
+                },
+                {
+                    "chapter_number": 14,
+                    "link": "http://bible.929.org.il/audio/167.Dvarim_14.mp3"
+                },
+                {
+                    "chapter_number": 15,
+                    "link": "http://bible.929.org.il/audio/168.Dvarim_15.mp3"
+                },
+                {
+                    "chapter_number": 16,
+                    "link": "http://bible.929.org.il/audio/169.Dvarim_16.mp3"
+                },
+                {
+                    "chapter_number": 17,
+                    "link": "http://bible.929.org.il/audio/170.Dvarim_17.mp3"
+                },
+                {
+                    "chapter_number": 18,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/18-Dvarim-18-fixd.mp3"
+                },
+                {
+                    "chapter_number": 19,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-19-fixd.mp3"
+                },
+                {
+                    "chapter_number": 20,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-20-fixd.mp3"
+                },
+                {
+                    "chapter_number": 21,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-21-fixd.mp3"
+                },
+                {
+                    "chapter_number": 22,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-22-fixd.mp3"
+                },
+                {
+                    "chapter_number": 23,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-23-fixd.mp3"
+                },
+                {
+                    "chapter_number": 24,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-24-fixd.mp3"
+                },
+                {
+                    "chapter_number": 25,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-25-fixd.mp3"
+                },
+                {
+                    "chapter_number": 26,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-26-fixd.mp3"
+                },
+                {
+                    "chapter_number": 27,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/03/Dvarim-27-fixd.mp3"
+                },
+                {
+                    "chapter_number": 28,
+                    "link": "http://bible.929.org.il/audio/181.Dvarim_28.mp3"
+                },
+                {
+                    "chapter_number": 29,
+                    "link": "http://bible.929.org.il/audio/182.Dvarim_29.mp3"
+                },
+                {
+                    "chapter_number": 30,
+                    "link": "http://bible.929.org.il/audio/183.Dvarim_30.mp3"
+                },
+                {
+                    "chapter_number": 31,
+                    "link": "http://bible.929.org.il/audio/184.Dvarim_31.mp3"
+                },
+                {
+                    "chapter_number": 32,
+                    "link": "http://bible.929.org.il/audio/185.Dvarim_32.mp3"
+                },
+                {
+                    "chapter_number": 33,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/04/Dvarim-33-fixd.mp3"
+                },
+                {
+                    "chapter_number": 34,
+                    "link": "https://wp.929.org.il/wp-content/uploads/2019/04/Dvarim-34-fixd.mp3"
+                }
+            ]
+        }
+    ]
+}

@@ -1,15 +1,14 @@
 download the data.py
 .ipynb_checkpoints
 whisper-*
-03_dataset.json
 HF_token.txt
 Telegram-bot-token.txt
 data_poket_torah
 missing_files*.json
 __pycache__
-validation_data.json
-train_data.json
-test_data.json
+/Teamim-*
+/download and process the data/slice long data/automatic using WhisperTimeSync/audio.wav
+
 
 slice_long_data/links_for_audio
 slice_long_data/texts_without_cantillations

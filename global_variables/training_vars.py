@@ -1,35 +1,36 @@
-
-COMBINE_DATA = False # if True, will combine the old data with the new data
-NEWDATA = "other" # True, False, "other" (for other data)
+COMBINE_DATA = True # if True, will combine the old data with the new data
+NEWDATA = True # "other" # True, False, "other" (for other data)
 ADDTOKENS = True
 NIKUD = False # False to remove the nikud
 JUST_TEAMIM = False # if True, will remove all the text! that is not teamim!
 BASE_CHAR = "@"
-NUSACHIM =  ["ashkenazi", "maroko", "yerushalmi", "bavly"] #["ashkenazi", "maroko", "yerushalmi", "bavly"]
+NUSACHIM =  ["ashkenazi", "maroko", "yerushalmi", "bavly"] # ["ashkenazi", "maroko", "yerushalmi", "bavly"]
 
 
-FASTTEST = False #load a little data for testing the code
+FASTTEST = False # load a little data for testing the code.
 BATCH_SIZE = 8
+
 
 SR = 16000
 RANDOM = False 
-AUGMENT = False
+AUGMENT = False # if True, will augment the data TODO: True
 
-LR = 1e-6
-WARMUP_STEPS = 20
-EVAL_STEPS = 5
-SAVE_STEPS = 2000
-MAX_STEPS = 3000
-DROPOUT = False # False or a number between 0 and 1
-WEIGHT_DECAY = False # False or a number
+LR = 1e-5
+WARMUP_STEPS = 500
+EVAL_STEPS = 10000
+SAVE_STEPS = 10000
+MAX_STEPS = 500000
+DROPOUT = False # False or a number between 0 and 1 TODO: fix it in the code 
+WEIGHT_DECAY = 0.05 # False or a number between 0 and 1 (recommended between 0.01 and 0.1)
+INIT_OUTPUT_LAYER = False # if True, will initialize the output layer with the base model weights.
 
 EVALUATE_FIRST_STEP = True # if True, will evaluate the model after the first step
 
 #base model 
 BASE_MODEL_VERSIONS = ["tiny", "base", "small", "medium", "large", "large-v2", "large-v3"] # for v3 we need to change the log-mel spectrum
-BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[5] # num of model. 0=tiny 1=base... 6=large-v3
-# BASE_MODEL_NAME = "openai/whisper-" + BASE_MODEL_VERSION
-BASE_MODEL_NAME = "cantillation/Teamim-large-v2_DropOut-0.5_Augmented_Combined-Data_date-28-06-2024_16-28"
+BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[0] # num of model. 0=tiny 1=base... 6=large-v3
+BASE_MODEL_NAME = "openai/whisper-" + BASE_MODEL_VERSION
+# BASE_MODEL_NAME = "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24"
 # BASE_MODEL_NAME = "ivrit-ai/whisper-v2-d3-e3"
 # BASE_MODEL_NAME = "ivrit-ai/whisper-v2-pd1-e1" # best hebrew model (large-v2 fine-tuned model)
 

@@ -82,16 +82,25 @@ if ADDTOKENS and not tokens_added: # add the tokens if they weren't already adde
     processor.tokenizer.add_tokens(new_tokens)
 
 # %%
-if COMBINE_DATA:
-    train_data1 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
-    train_data2 = parashat_hashavua_dataset(new_data = False, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=13, augment=AUGMENT, prob_for_num_of_parts = [0.05, 0.05, 0.05, 0.05, 0.1, 0.15, 0.15, 0.2, 0.2], processor=processor)
-    train_data = ConcatDataset([train_data1, train_data2])
+if COMBINE_DATA and NEWDATA == "other":
+    print("COMBINE_DATA is True and NEWDATA is 'other'. This is not supported. Please change one of them.")
+    exit()
 else:
-    if NEWDATA:
-        train_data = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
-
+    if COMBINE_DATA:
+        train_data1 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
+        train_data2 = parashat_hashavua_dataset(new_data = False, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=13, augment=AUGMENT, prob_for_num_of_parts = [0.05, 0.05, 0.05, 0.05, 0.1, 0.15, 0.15, 0.2, 0.2], processor=processor)
+        train_data = ConcatDataset([train_data1, train_data2])
     else:
-        train_data = parashat_hashavua_dataset(new_data = False, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=13, augment=AUGMENT, prob_for_num_of_parts = [0.05, 0.05, 0.05, 0.05, 0.1, 0.15, 0.15, 0.2, 0.2], processor=processor)
+        if NEWDATA == "other":
+            train_data = parashat_hashavua_dataset(new_data = NEWDATA, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=1, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
+        elif NEWDATA:
+            train_data = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
+
+        else:
+            train_data = parashat_hashavua_dataset(new_data = False, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=13, augment=AUGMENT, prob_for_num_of_parts = [0.05, 0.05, 0.05, 0.05, 0.1, 0.15, 0.15, 0.2, 0.2], processor=processor)
+        
+        
+print(len(train_data))
 
 
 # %%
@@ -116,15 +125,15 @@ if COMBINE_DATA:
     val_data = ConcatDataset([val_data1, val_data2])
     
 else:
-    if NEWDATA:
+    if NEWDATA == "other":
+        val_data = parashat_hashavua_dataset(new_data = NEWDATA, few_data=FASTTEST, train=False ,validation=True,  num_of_words_in_sample=1, nusachim=NUSACHIM, processor=processor)
+    elif NEWDATA:
         val_data = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train=False ,validation=True,  num_of_words_in_sample=4, nusachim=NUSACHIM, processor=processor)
     else:
         val_data = parashat_hashavua_dataset(new_data = False, train=False ,validation=True, num_of_words_in_sample=13, random=RANDOM, processor=processor)
     
 
-print(len(train_data))
 print(len(val_data))
-
 # %%
 
 from dataclasses import dataclass
@@ -285,9 +294,10 @@ def compute_metrics(pred):
 # %%
 from transformers import WhisperForConditionalGeneration
 
-model = WhisperForConditionalGeneration.from_pretrained(BASE_MODEL_NAME, use_cache=False) # we can add "force_download=True" to download the model again
+model = WhisperForConditionalGeneration.from_pretrained(BASE_MODEL_NAME) # we can add "force_download=True" to download the model again
 
-model.generation_config.language = "he"
+
+# model.generation_config.language = "he"
 
 
 
@@ -295,21 +305,12 @@ model.generation_config.language = "he"
 # # initialize the last layer of the model:
 # model.proj_out.__init__(model.proj_out.in_features, len(processor.tokenizer))
 
-# # add dropout
-if DROPOUT:
-    model.config.attention_dropout = DROPOUT
-    model.config.dropout = DROPOUT
-    model.config.activation_dropout = DROPOUT
-
 
 if ADDTOKENS:
     model.resize_token_embeddings(len(processor.tokenizer))
 
-model.config.forced_decoder_ids = None
-model.config.suppress_tokens = []
-
-model.config.decoder_input_ids = None
-
+# save the model config
+# model.config.save_pretrained(MODEL_NAME)
 
 
 # %%
@@ -329,10 +330,9 @@ training_args = Seq2SeqTrainingArguments(
     gradient_checkpointing=True,
     gradient_checkpointing_kwargs={'use_reentrant':False}, # I added that because UserWarning: "The default value of use_reentrant will be updated to be False in the future."
     fp16=torch.cuda.is_available(), # I added that because fp16 can't be use on CPU but on cuda
-    evaluation_strategy="steps",
+    eval_strategy="steps",
     per_device_eval_batch_size=32,
     predict_with_generate=True,
-    generation_max_length=225,
     save_steps=SAVE_STEPS, 
     eval_steps=EVAL_STEPS,   
     logging_steps=25, 
@@ -359,7 +359,6 @@ class EvaluateFirstStepCallback(TrainerCallback):
             control.should_evaluate = True
 
 
-
 trainer = Seq2SeqTrainer(
     args=training_args,
     model=model,
@@ -375,6 +374,7 @@ trainer = Seq2SeqTrainer(
 
 # %%
 processor.save_pretrained(training_args.output_dir)
+
 
 # %%
 def flags_warnings():
@@ -392,6 +392,7 @@ def flags_warnings():
 flags_warnings()
 
 trainer_state = trainer.train()
+
 
 # %%
 kwargs = {
@@ -429,7 +430,7 @@ def log_training_to_markdown_file(training_args, training_loss, epoch, step, val
     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
 
     with open(filename, 'a') as f:
-        f.write(f"| {date_time} | {training_args.output_dir } | {training_args.per_device_train_batch_size} | {training_args.gradient_accumulation_steps} | {training_args.learning_rate} | {training_args.warmup_steps} | {training_args.max_steps} | {training_args.gradient_checkpointing} | {training_args.gradient_checkpointing_kwargs} | {training_args.fp16} | {training_args.evaluation_strategy} | {training_args.per_device_eval_batch_size} | {training_args.predict_with_generate} | {training_args.generation_max_length} | {training_args.save_steps} | {training_args.eval_steps} | {training_args.logging_steps} | {training_args.report_to} | {training_args.load_best_model_at_end} | {training_args.metric_for_best_model} | {training_args.greater_is_better} | {training_args.push_to_hub} | {training_loss} | {epoch} | {step} | {validation_loss} | {f1} | {recall} | {precision} |\n")
+        f.write(f"| {date_time} | {training_args.output_dir } | {training_args.per_device_train_batch_size} | {training_args.gradient_accumulation_steps} | {training_args.learning_rate} | {training_args.warmup_steps} | {training_args.max_steps} | {training_args.gradient_checkpointing} | {training_args.gradient_checkpointing_kwargs} | {training_args.fp16} | {training_args.eval_strategy} | {training_args.per_device_eval_batch_size} | {training_args.predict_with_generate} | {training_args.generation_max_length} | {training_args.save_steps} | {training_args.eval_steps} | {training_args.logging_steps} | {training_args.report_to} | {training_args.load_best_model_at_end} | {training_args.metric_for_best_model} | {training_args.greater_is_better} | {training_args.push_to_hub} | {training_loss} | {epoch} | {step} | {validation_loss} | {f1} | {recall} | {precision} |\n")
 
 def create_markdown_file_with_headers(filename="./markdown_files/training_log_new.md"):
     with open(filename, 'w') as f:
@@ -473,70 +474,63 @@ precision = history['eval_avg_precision_Exact']
 log_training_to_markdown_file(training_args, training_loss, epoch, step, validation_loss, f1, recall, precision, filename="./markdown_files/training_log_new.md")
 
 
-# %%
-#load the markdown file
-from IPython.display import Markdown
+# # %%
+# #load the markdown file
+# from IPython.display import Markdown
 
-# Open the file in read mode
-with open('./markdown_files/training_log_new.md', 'r') as file:
-    # Read the content of the file
-    content = file.read()
+# # Open the file in read mode
+# with open('./markdown_files/training_log_new.md', 'r') as file:
+#     # Read the content of the file
+#     content = file.read()
 
-# Display the content as Markdown
-display(Markdown(content))
+# # Display the content as Markdown
+# display(Markdown(content))
 
-# %% [markdown]
-# | Model Name | Model Name | data | steps | lr |
-# |----------|----------|----------|--------|--------|
-# | whisper-medium-he-teamim-base | medium | all | 10,000 | 3e-5 |
-# | whisper-medium-he-teamim-ashkenazi-01 | base | ashkenazi | 9,000 | 1e-6 |
-# 
-# 
-# 
+# # %% [markdown]
+# # | Model Name | Model Name | data | steps | lr |
+# # |----------|----------|----------|--------|--------|
+# # | whisper-medium-he-teamim-base | medium | all | 10,000 | 3e-5 |
+# # | whisper-medium-he-teamim-ashkenazi-01 | base | ashkenazi | 9,000 | 1e-6 |
+# # 
+# # 
+# # 
 
-# %%
-# run a web server to see the tensorboard
-# !tensorboard --logdir ./whisper-medium-he-teamim-aviv-base --port 6006 --bind_all
+# # %%
+# # run a web server to see the tensorboard
+# # !tensorboard --logdir ./whisper-medium-he-teamim-aviv-base --port 6006 --bind_all
 
-# %% [markdown]
-# # Test the model
+# # %% [markdown]
+# # # Test the model
 
-# %%
-# load the model
-model = WhisperForConditionalGeneration.from_pretrained(MODEL_NAME)
-processor = WhisperProcessor.from_pretrained(MODEL_NAME)
+# # %%
+# # load the model
+# model = WhisperForConditionalGeneration.from_pretrained(MODEL_NAME)
+# processor = WhisperProcessor.from_pretrained(MODEL_NAME)
 
-# load the test data
-test_data = parashat_hashavua_dataset(few_data=FASTTEST, train=False ,validation=False, test=True,  num_of_words_in_sample=4, nusachim=NUSACHIM, processor=processor)
+# # load the test data
+# test_data = parashat_hashavua_dataset(few_data=FASTTEST, train=False ,validation=False, test=True,  num_of_words_in_sample=4, nusachim=NUSACHIM, processor=processor)
 
-# create the data collator
-data_collator = DataCollatorSpeechSeq2SeqWithPadding(processor=processor)
-
-
-# %%
-from transformers import Seq2SeqTrainer
-trainer = Seq2SeqTrainer(
-    args=training_args,
-    model=model,
-    eval_dataset=test_data,
-    data_collator=data_collator,
-    compute_metrics=compute_metrics,
-    tokenizer=processor.feature_extractor,
-)
-
-# evaluate the model
-results = trainer.evaluate() # we use evaluate to get the metrics
-print(results)
-# save the results to a json file
-# create the results file
-with open(f"results_{MODEL_NAME.split('/')[-1]}.json", 'w') as f:
-    json.dump(results, f, indent=4)
+# # create the data collator
+# data_collator = DataCollatorSpeechSeq2SeqWithPadding(processor=processor)
 
 
-# %%
-{'eval_loss': 0.7434155344963074, 'eval_wer': 12.154756685664182, 'eval_avg_precision_Exact': 0.9045080330977024, 'eval_avg_recall_Exact': 0.9046995984902677, 'eval_avg_f1_Exact': 0.9041808511811215, 'eval_avg_precision_Letter_Shift': 0.9262739837538204, 'eval_avg_recall_Letter_Shift': 0.9265417247288052, 'eval_avg_f1_Letter_Shift': 0.9259759561670436, 'eval_avg_precision_Word_Level': 0.9287635843313802, 'eval_avg_recall_Word_Level': 0.9291329677264785, 'eval_avg_f1_Word_Level': 0.928526987815817, 'eval_avg_precision_Word_Shift': 0.9744189603225837, 'eval_avg_recall_Word_Shift': 0.9756642194342305, 'eval_avg_f1_Word_Shift': 0.9746023104771994, 'eval_precision_median_exact': 1.0, 'eval_recall_median_exact': 1.0, 'eval_f1_median_exact': 1.0, 'eval_precision_max_exact': 1.0, 'eval_recall_max_exact': 1.0, 'eval_f1_max_exact': 1.0, 'eval_precision_min_Exact': 0.0, 'eval_recall_min_Exact': 0.0, 'eval_f1_min_Exact': 0.0, 'eval_precision_min_Letter_Shift': 0.0, 'eval_recall_min_Letter_Shift': 0.0, 'eval_f1_min_Letter_Shift': 0.0, 'eval_precision_min_Word_Level': 0.0, 'eval_recall_min_Word_Level': 0.0, 'eval_f1_min_Word_Level': 0.0, 'eval_precision_min_Word_Shift': 0.0, 'eval_recall_min_Word_Shift': 0.0, 'eval_f1_min_Word_Shift': 0.0, 'eval_runtime': 1534.2005, 'eval_samples_per_second': 1.755, 'eval_steps_per_second': 0.055}
+# # %%
+# from transformers import Seq2SeqTrainer
+# trainer = Seq2SeqTrainer(
+#     args=training_args,
+#     model=model,
+#     eval_dataset=test_data,
+#     data_collator=data_collator,
+#     compute_metrics=compute_metrics,
+#     tokenizer=processor.feature_extractor,
+# )
 
-# %%
-
+# # evaluate the model
+# results = trainer.evaluate() # we use evaluate to get the metrics
+# print(results)
+# # save the results to a json file
+# # create the results file
+# with open(f"results_{MODEL_NAME.split('/')[-1]}.json", 'w') as f:
+#     json.dump(results, f, indent=4)
 
 

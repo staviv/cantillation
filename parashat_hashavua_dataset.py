@@ -150,7 +150,7 @@ class parashat_hashavua_dataset:
                         elif validation:
                                 file_path = os.path.join(JSONS_FOLDER, 'validation_data_other.json')
                         elif test:
-                                file_path = os.path.join(JSONS_FOLDER, 'test_data.json')  
+                                file_path = os.path.join(JSONS_FOLDER, 'test_data_other.json')  
                         else:
                                 file_path = os.path.join(JSONS_FOLDER, '03_dataset.json') 
                 else: 
@@ -180,6 +180,7 @@ class parashat_hashavua_dataset:
                                         predataset['text'] = predataset['text'][:500]
                                         
                                 missing_files = []
+                                print(predataset.keys())
                                 for index, audio_file in enumerate(tqdm(predataset[nusach], desc=f"Loading {nusach} nusach ({nusachim.index(nusach)+1}/{len(nusachim)})")):
                                         audio_path = os.path.join(audio_file)
                                         if self.is_text_and_audio_pair_legal(predataset['text'][index], audio_path):
