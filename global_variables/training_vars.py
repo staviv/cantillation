@@ -7,28 +7,28 @@ BASE_CHAR = "@"
 NUSACHIM =  ["ashkenazi", "maroko", "yerushalmi", "bavly"] # ["ashkenazi", "maroko", "yerushalmi", "bavly"]
 
 
-FASTTEST = False # load a little data for testing the code.
+FASTTEST = False # load small data for testing the code.
 BATCH_SIZE = 8
 
 
 SR = 16000
 RANDOM = False 
-AUGMENT = False # if True, will augment the data TODO: True
+AUGMENT = True # if True, will augment the data 
 
 LR = 1e-5
 WARMUP_STEPS = 500
 EVAL_STEPS = 10000
-SAVE_STEPS = 10000
-MAX_STEPS = 500000
+SAVE_STEPS = 80000
+MAX_STEPS = 80000
 DROPOUT = False # False or a number between 0 and 1 TODO: fix it in the code 
-WEIGHT_DECAY = 0.05 # False or a number between 0 and 1 (recommended between 0.01 and 0.1)
+WEIGHT_DECAY = 0.05 # False or a number between 0 and 1 (recommended between 0.01 and 0.1. [based on tests I did])
 INIT_OUTPUT_LAYER = False # if True, will initialize the output layer with the base model weights.
 
 EVALUATE_FIRST_STEP = True # if True, will evaluate the model after the first step
 
 #base model 
 BASE_MODEL_VERSIONS = ["tiny", "base", "small", "medium", "large", "large-v2", "large-v3"] # for v3 we need to change the log-mel spectrum
-BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[0] # num of model. 0=tiny 1=base... 6=large-v3
+BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[5] # num of model. 0=tiny 1=base... 6=large-v3
 BASE_MODEL_NAME = "openai/whisper-" + BASE_MODEL_VERSION
 # BASE_MODEL_NAME = "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24"
 # BASE_MODEL_NAME = "ivrit-ai/whisper-v2-d3-e3"
@@ -37,7 +37,7 @@ BASE_MODEL_NAME = "openai/whisper-" + BASE_MODEL_VERSION
 # current date and time
 from datetime import datetime
 now = datetime.now()
-dt_string = now.strftime("%d-%m-%Y_%H-%M")
+dt_string = now.strftime("%d-%m-%Y")
 
 if COMBINE_DATA:
     datatype = "Combined"
@@ -46,7 +46,8 @@ else:
 
 RUN_NAME = BASE_MODEL_VERSION + ("_Random" if RANDOM else "") + (("_DropOut-" + str(DROPOUT)) if DROPOUT else "") \
             + (("_WeightDecay-" + str(WEIGHT_DECAY)) if WEIGHT_DECAY else "")  + "_Augmented"*AUGMENT \
-            + "_" + datatype + "-Data" + "_date-" + dt_string  # + "_Warmup_steps-" + str(WARMUP_STEPS) + "_Eval_steps-" + str(EVAL_STEPS) + "_Save_steps-" + str(SAVE_STEPS) + "_Max_steps-" + str(MAX_STEPS) # + "_EvalFirstStep-" + str(EVALUATE_FIRST_STEP) + "_LR-" + str(LR) + 
+             + "_WithNikud"*NIKUD + "_" + datatype + "-Data" + "_date-" + dt_string
+            # + "_Warmup_steps-" + str(WARMUP_STEPS) + "_Eval_steps-" + str(EVAL_STEPS) + "_Save_steps-" + str(SAVE_STEPS) + "_Max_steps-" + str(MAX_STEPS) # + "_EvalFirstStep-" + str(EVALUATE_FIRST_STEP) + "_LR-" + str(LR) + 
 
 
 
