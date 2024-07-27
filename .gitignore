@@ -1,6 +1,6 @@
 download the data.py
 .ipynb_checkpoints
-whisper-*
+/whisper-*
 HF_token.txt
 Telegram-bot-token.txt
 data_poket_torah
@@ -14,7 +14,7 @@ slice_long_data/links_for_audio
 slice_long_data/texts_without_cantillations
 
 
-audio_files*
-testLLM
+/audio_files*
+/testLLM
 missing_filesaudio.json
 download and process the data/slice long data/semi automatic cut/text
