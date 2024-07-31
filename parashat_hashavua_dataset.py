@@ -23,10 +23,10 @@ from nikud_and_teamim import just_teamim,remove_nikud
 
 path = "."
 class parashat_hashavua_dataset:
-        def __init__(self, new_data, processor, few_data=False, train = True ,validation=False, test=False, num_of_words_in_sample = 15, random = False, prob_for_num_of_parts=[], nusachim=["ashkenazi"], augment=False, load_cantillationless_data = False):
+        def __init__(self, new_data, processor, few_data=False, train = True ,validation=False, test=False, num_of_words_in_sample = 15, random = False, prob_for_num_of_parts=[], nusachim=["ashkenazi"], augment=False, load_srt_data = False):
                 self.data = []
                 self.few_data = few_data
-                self.load_data(new_data, train, validation, test, nusachim=nusachim, load_cantillationless_data=load_cantillationless_data)
+                self.load_data(new_data, train, validation, test, nusachim=nusachim, load_srt_data=load_srt_data)
                 if JUST_TEAMIM:
                         self.data['text'] = self.data['text'].apply(just_teamim)
                 elif not NIKUD:
@@ -86,8 +86,8 @@ class parashat_hashavua_dataset:
                 text_len = len(text_tokens)
                 return sequence, audio, text, audio_len, text_tokens, text_len
         
-        def load_data(self,new_data , train, validation, test, nusachim=["ashkenazi"], load_cantillationless_data = False): 
-                if load_cantillationless_data:
+        def load_data(self,new_data , train, validation, test, nusachim=["ashkenazi"], load_srt_data = False): 
+                if load_srt_data:
                         self.load_data_srt_mp3(train, validation, test)
                 elif new_data == "other":
                         nusachim = ["audio"]
@@ -205,7 +205,7 @@ class parashat_hashavua_dataset:
                 """
                 this function get a string of words and return a list of the words
                 """
-                text = text.replace(" ׀ ", "׀").replace(" ׀ ", "׀").replace("׀", "׀ ").replace("־", "־ ").replace("[1]", "")
+                text = text.replace(" ׀ ", "׀").replace(" ׀ ", "׀").replace("׀", "׀ ").replace("־", "־ ").replace("[1]", "")
                 text = re.sub(r'\s+|\n', ' ', text)  # replace multiple spaces or newline with a single space
                 text_list = text.split(" ")
                 if text_list[-1] == "":
@@ -323,11 +323,11 @@ class parashat_hashavua_dataset:
         # For the new data without the cantillation
         def load_data_srt_mp3(self, train, validation, test):
                 if train and not validation and not test:
-                        folder = './train_cantillationless/'
+                        folder = './train_srt/'
                 elif validation and not train and not test:
-                        folder = './validation_cantillationless/'
+                        folder = './validation_srt/'
                 elif test and not train and not validation:
-                        folder = './test_cantillationless/'
+                        folder = './test_srt/'
                 else:
                         print("Invalid input. Please provide a valid input.")
                 
@@ -339,6 +339,9 @@ class parashat_hashavua_dataset:
                 for filename in tqdm(os.listdir(transcript_folder)):
                         if filename.endswith(".srt"):
                                 audio_path = os.path.join(audio_folder, filename.replace('.srt', '.mp3'))
+                                # if mp3 file doesn't exist, try to find wav file
+                                if not os.path.exists(audio_path):
+                                        audio_path = os.path.join(audio_folder, filename.replace('.srt', '.wav'))
                                 transcript_path = os.path.join(transcript_folder, filename)
                                 with open(transcript_path, 'r', encoding='utf-8') as f:
                                         transcript = list(srt.parse(f.read()))

@@ -15,6 +15,7 @@ slice_long_data/texts_without_cantillations
 
 
 /audio_files*
+/test_srt
 /testLLM
 missing_filesaudio.json
 download and process the data/slice long data/semi automatic cut/text
