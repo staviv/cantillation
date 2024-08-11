@@ -206,7 +206,13 @@ def compute_metrics(pred):
 # # Test the model
 
 # %%
-models = ["cantillation/Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_05-09", "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24", "cantillation/Teamim-medium_WeightDecay-0.05_Augmented_Combined-Data_date-13-07-2024_18-40", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_12-42", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_date-19-07-2024_15-41", "cantillation/Teamim-small_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-08", "cantillation/Teamim-tiny_WeightDecay-0.05_Augmented_Combined-Data_date-10-07-2024_14-33", "cantillation/Teamim-tiny_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-10", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-33","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-34_WithNikud","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-23-07-2024", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_nusach-yerushalmi_date-24-07-2024", "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-25-07-2024"]
+JUST_ADD_NEW_RESULTS = False
+
+# %%
+if JUST_ADD_NEW_RESULTS:
+    models = []
+else:
+    models = ["cantillation/Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_05-09", "cantillation/Teamim-large-v2-pd1-e1_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24", "cantillation/Teamim-medium_WeightDecay-0.05_Augmented_Combined-Data_date-13-07-2024_18-40", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_12-42", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_date-19-07-2024_15-41", "cantillation/Teamim-small_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-08", "cantillation/Teamim-tiny_WeightDecay-0.05_Augmented_Combined-Data_date-10-07-2024_14-33", "cantillation/Teamim-tiny_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-10", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-33","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-34_WithNikud","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-23-07-2024", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_nusach-yerushalmi_date-24-07-2024", "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-25-07-2024", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_New-Data_date-02-08-2024"]
 
 
 # %%
@@ -214,7 +220,17 @@ models = ["cantillation/Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_dat
 # We use the processor that we updated with teamim
 processor = WhisperProcessor.from_pretrained(models[0])
 # Load the test data
-test_data = parashat_hashavua_dataset(new_data="other", few_data=FASTTEST, train=False, validation=False, test=True, random=False, num_of_words_in_sample=1, augment=AUGMENT, processor=processor)
+test_data = parashat_hashavua_dataset(new_data="other", few_data=FASTTEST, train=False, validation=False, test=True, random=False, num_of_words_in_sample=1, augment=False, processor=processor, load_srt_data=False)
+# test_data = parashat_hashavua_dataset(new_data="other", few_data=FASTTEST, train=False, validation=False, test=True, random=False, num_of_words_in_sample=8, augment=False, processor=processor, load_srt_data=True)
+
+
+# %%
+# lens = test_data.data["audio"].apply(lambda x: len(x))/16000
+# # sum each 4 samples to get the total length of the audio
+# lens = lens.rolling(5).sum().dropna()
+# # plot the length of the audio histogram
+# lens.hist(bins=100)
+
 
 # %%
 from transformers import Seq2SeqTrainingArguments
@@ -290,7 +306,7 @@ def reorder_columns(df, priority_columns):
     reordered_columns = priority_columns + [col for col in df.columns if col not in priority_columns]
     return df[reordered_columns]
 df = reorder_columns(df, ["avg_f1_Exact", "avg_recall_Exact", "avg_precision_Exact","wer"])
-# df
+df
 
 # %%
 import re
@@ -342,12 +358,19 @@ def extract_model_info(model_str):
     model_info['random'] = False
   
   
+  
   return model_info
 
 
 # %%
+df
+
+# %%
+
+
+# %%
 # # Load the results
-# df = pd.read_csv("/app/test/test_results.csv")
+# df = pd.read_csv("/app/evalutions_on_other_data/test_results.csv")
 
 # Extract model information
 model_info = df['model'].apply(extract_model_info).apply(pd.Series)
@@ -361,7 +384,23 @@ df.drop('model', axis=1, inplace=True)
 # add each extracted column to the dataframe
 df = pd.concat([model_info, df], axis=1)
 
+df
 
+# %%
+
+
+# %%
+if JUST_ADD_NEW_RESULTS:
+    # load old results add the new results
+    old_df = pd.read_csv("/app/evalutions_on_other_data/test_results.csv")
+
+    # add the new results
+    df = pd.concat([old_df, df], ignore_index=True) 
+    
+df
+
+# %%
+df
 
 # %%
 
@@ -384,17 +423,14 @@ df['model_closest'] = pd.Categorical(df['model_closest'], categories=order, orde
 # Sort the DataFrame by the new column
 df = df.sort_values('model_closest')
 df = df.drop(columns=['model_closest'])  # Remove the temporary column
-print(df)
+
+
+# %%
+df
 
 # %%
 
 # save the results
 df.to_csv("/app/evalutions_on_other_data/test_results.csv", index=False)
-
-# %%
-
-
-# %%
-
 
 
