@@ -379,25 +379,35 @@ In the future, we plan to create a Telegram bot that will allow more people who 
 
 ## 🚀 Getting Started
 
-### 📝 Requirements
+## 📝 Requirements
 
 Before you start, make sure you have the following prerequisites:
+
 * **Python**: 3.10.12
 
-You also need to install the following libraries with the specified versions:
+You also need to install the following libraries:
 
-| Library      | Version                                                            |
-| ------------ | ------------------------------------------------------------------ |
-| datasets     | >=2.6.1                                                            |
-| pytorch      | >=2.2.0                                                            |
-| transformers | (from [ huggingface](https://github.com/huggingface/transformers)) |
-| librosa      | (latest)                                                           |
-| jiwer        | (latest)                                                           |
-| evaluate     | >=0.30                                                             |
-| gradio       | (latest)                                                           |
-| accelerate   | (latest)                                                           |
-| mutagen      | (latest)                                                           |
-| torchaudio   | (latest)                                                           |
+| Library                  | Version                                                             |
+|--------------------------|---------------------------------------------------------------------|
+| datasets                 | >=2.6.1                                                             |
+| transformers             | (from [huggingface/transformers](https://github.com/huggingface/transformers)) |
+| pytorch                  | >=2.2.0                                                             |
+| torchaudio               | (latest)                                                            |
+| librosa                  | (latest)                                                            |
+| jiwer                    | (latest)                                                            |
+| evaluate                 | >=0.30                                                              |
+| gradio                   | (latest)                                                            |
+| accelerate               | (latest)                                                            |
+| audiomentations[extras]  | (latest)                                                            |
+| mutagen                  | (latest)                                                            |
+| srt                      | (latest)                                                            |
+| numpy                    | (latest)                                                            |
+| pandas                   | (latest)                                                            |
+| tqdm                     | (latest)                                                            |
+| IPython                  | (latest)                                                            |
+| tbparse                  | (latest)                                                            |
+| pydub                    | (latest)                                                            |
+| requests                 | (latest)                                                            |
 
 #### GPU Acceleration (Optional)
 
