@@ -65,7 +65,7 @@ Reading the Torah with accurate cantillation marks is a challenging task, and re
 
 ## 🗃️ Data Sources
 
-The primary data source for this project is [PocketTorah](https://github.com/rneiss/PocketTorah), which provides text data with cantillation marks extracted from Wikisource using web scraping techniques. The data is preprocessed by creating suitable data structures, removing incorrect data, and concatenating short samples to form longer ones compatible with the Whisper model's requirements.
+The primary data sources for this project are [Ben13](https://www.ben13.co.il/) and [PocketTorah](https://github.com/rneiss/PocketTorah), which provide text data with cantillation marks extracted from Wikisource using web scraping techniques. The data is preprocessed by creating suitable data structures, removing incorrect data, and concatenating short samples to form longer ones compatible with the Whisper model's requirements.
 
 In the future, we plan to create a Telegram bot that will allow more people who can read from the Torah to contribute data by reading texts with cantillation marks through the Telegram interface. This approach will help expand the dataset and improve the model's performance.
 
