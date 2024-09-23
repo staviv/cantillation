@@ -1,11 +1,19 @@
 <p align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" width="100" />
+  <a href="https://sipl.ece.technion.ac.il/" target="_blank">
+    <img src="https://sipl.ece.technion.ac.il/wp-content/uploads/2024/09/slps50-1024x600.jpg" width="300" alt="SIPL - Signal and Image Processing Laboratory" />
+  </a>
 </p>
 <p align="center">
     <h1 align="center">Torah Reading Transcriber with Cantillation Marks</h1>
 </p>
 <p align="center">
     <em>A model to accurately transcribe Torah readings with cantillation marks, enabling self-practice and identifying mistakes.</em>
+</p>
+<p align="center">
+  <em>The project was done by Aviv Shem Tov and Ori Levi</em>
+</p>
+<p align="center">
+  <em>Supervised by Dr. Oren Mishali and Nimrod Peleg</em>
 </p>
 <p align="center">
 	<!-- <img src="https://img.shields.io/github/license/staviv/cantillation?style=flat&color=0080ff" alt="license"> -->
