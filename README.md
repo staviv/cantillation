@@ -11,7 +11,7 @@
   <em>Supervised by Dr. Oren Mishali and Nimrod Peleg</em>
 </p>
 <p align="center">
-  <em>This project was developed and refined under the auspices of the Signal and Image Processing Lab (SIPL) at the Technion - Israel Institute of Technology</em>
+  <em>This project received support and resources from the Signal and Image Processing Lab (SIPL) at the Technion - Israel Institute of Technology</em>
 </p>
 <p align="center">
   <a href="https://sipl.ece.technion.ac.il/" target="_blank">
