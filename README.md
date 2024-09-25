@@ -1,25 +1,29 @@
 <p align="center">
-  <a href="https://sipl.ece.technion.ac.il/" target="_blank">
-    <img src="https://sipl.ece.technion.ac.il/wp-content/uploads/2024/09/slps50-1024x600.jpg" width="300" alt="SIPL - Signal and Image Processing Laboratory" />
-  </a>
-</p>
-<p align="center">
     <h1 align="center">Torah Reading Transcriber with Cantillation Marks</h1>
 </p>
 <p align="center">
     <em>A model to accurately transcribe Torah readings with cantillation marks, enabling self-practice and identifying mistakes.</em>
 </p>
 <p align="center">
-  <em>The project was done by Aviv Shem Tov and Ori Levi</em>
+  <em>Project initiated and primarily developed by Aviv Shem Tov</em>
+</p>
+<p align="center">
+  <em>Additional development by Ori Levi</em>
 </p>
 <p align="center">
   <em>Supervised by Dr. Oren Mishali and Nimrod Peleg</em>
 </p>
 <p align="center">
-	<!-- <img src="https://img.shields.io/github/license/staviv/cantillation?style=flat&color=0080ff" alt="license"> -->
+  <em>This project was developed and refined under the auspices of the Signal and Image Processing Lab (SIPL) at the Technion - Israel Institute of Technology</em>
+</p>
+<p align="center">
+  <a href="https://sipl.ece.technion.ac.il/" target="_blank">
+    <img src="https://sipl.ece.technion.ac.il/wp-content/uploads/2024/09/slps50-1024x600.jpg" width="240" alt="SIPL - Signal and Image Processing Laboratory" />
+  </a>
+</p>
+<p align="center">
 	<img src="https://img.shields.io/github/last-commit/staviv/cantillation?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
 	<img src="https://img.shields.io/github/languages/top/staviv/cantillation?style=flat&color=0080ff" alt="repo-top-language">
-	<!-- <img src="https://img.shields.io/github/languages/count/staviv/cantillation?style=flat&color=0080ff" alt="repo-language-count"> -->
 <p>
 <p align="center">
 		<em>Developed with the software and tools below.</em>
@@ -31,8 +35,8 @@
 </p>
 <hr>
 
-## 🔗 Quick Links
 
+## 🔗 Quick Links
 > - [📍 Overview](#-overview)
 > - [💡 Motivation](#-motivation)
 > - [📦 Features](#-features)
@@ -44,14 +48,14 @@
 >   - [⚙️ Installation](#️-installation)
 >   - [🤖 Running The Model on Telegram Bot](#-running-the-model-on-telegram-bot)
 > - [🛠 Future Work](#-future-work)
-> - [🤝 Contributing](#-contributing)<!-- > - [📄 License](#-license) -->
+> - [🤝 Contributing](#-contributing)
 > - [👏 Acknowledgments](#-acknowledgments)
 
 ---
 
 ## 📍 Overview
 
-This project aims to create a model capable of accurately transcribing Torah readings with cantillation marks (טעמי המקרא). The model can identify mistakes, provide corrections, enable self-practice, and mark the reader's mistakes. By leveraging transfer learning on the Whisper model from OpenAI, the project seeks to provide a cost-effective solution for consistent feedback and self-practice in Torah reading.
+This project aims to create a model capable of accurately transcribing Torah readings with cantillation marks (טעמי המקרא). Cantillation marks, also known as trope or te'amim, are symbols used in the Hebrew Bible to guide the ritual chanting of the text. The model can identify mistakes, provide corrections, enable self-practice, and mark the reader's mistakes. By leveraging transfer learning on the Whisper model from OpenAI, the project seeks to provide a cost-effective solution for consistent feedback and self-practice in Torah reading.
 
 ---
 
