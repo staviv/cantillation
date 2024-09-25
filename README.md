@@ -5,10 +5,7 @@
     <em>A model to accurately transcribe Torah readings with cantillation marks, enabling self-practice and identifying mistakes.</em>
 </p>
 <p align="center">
-  <em>Project initiated and primarily developed by Aviv Shem Tov</em>
-</p>
-<p align="center">
-  <em>Additional development by Ori Levi</em>
+  <em>The project was done by Aviv Shem Tov and Ori Levi</em>
 </p>
 <p align="center">
   <em>Supervised by Dr. Oren Mishali and Nimrod Peleg</em>
