@@ -15,7 +15,7 @@
 </p>
 <p align="center">
   <a href="https://sipl.ece.technion.ac.il/" target="_blank">
-    <img src="https://sipl.ece.technion.ac.il/wp-content/uploads/2024/09/slps50-1024x600.jpg" width="240" alt="SIPL - Signal and Image Processing Laboratory" />
+    <img src="https://sipl.ece.technion.ac.il/wp-content/themes/sipl/img/logo.png" width="240" alt="SIPL - Signal and Image Processing Laboratory" />
   </a>
 </p>
 <p align="center">
