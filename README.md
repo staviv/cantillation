@@ -1,18 +1,20 @@
 <p align="center">
-    <h1 align="center">Torah Reading Transcriber with Cantillation Marks</h1>
+    <h1 align="center">Automatic Speech Recognition for Torah Reading with Cantillation Marks</h1>
 </p>
 <p align="center">
-    <em>A model to accurately transcribe Torah readings with cantillation marks, enabling self-practice and identifying mistakes.</em>
+    <em>A deep learning model for accurate transcription and validation of Torah readings with cantillation marks (טעמי המקרא)</em>
 </p>
 <p align="center">
-  <em>The project was done by Aviv Shem Tov and Ori Levi</em>
+    <em>By Aviv Shem Tov and Ori Levi</em>
 </p>
 <p align="center">
-  <em>Supervised by Dr. Oren Mishali and Nimrod Peleg</em>
+    <em>Under the supervision of Dr. Oren Mishali and Nimrod Peleg</em>
 </p>
 <p align="center">
-  <em>This project received support and resources from the Signal and Image Processing Lab (SIPL) at the Technion - Israel Institute of Technology</em>
+    <em>Developed at the Signal and Image Processing Lab (SIPL)</em><br>
+    <em>Technion - Israel Institute of Technology</em>
 </p>
+
 <p align="center">
   <a href="https://sipl.ece.technion.ac.il/" target="_blank">
     <img src="https://sipl.ece.technion.ac.il/wp-content/themes/sipl/img/logo.png" width="240" alt="SIPL - Signal and Image Processing Laboratory" />
@@ -49,11 +51,14 @@
 > - [👏 Acknowledgments](#-acknowledgments)
 
 ---
-
 ## 📍 Overview
+We present an innovative speech recognition model specifically designed for Torah reading with cantillation marks (טעמי המקרא). Built upon OpenAI's Whisper architecture and adapted through transfer learning, our model achieves state-of-the-art accuracy in transcribing both the biblical text and its musical notation. The system provides immediate feedback for learners, enabling autonomous practice and improvement of Torah reading skills.
 
-This project aims to create a model capable of accurately transcribing Torah readings with cantillation marks (טעמי המקרא). Cantillation marks, also known as trope or te'amim, are symbols used in the Hebrew Bible to guide the ritual chanting of the text. The model can identify mistakes, provide corrections, enable self-practice, and mark the reader's mistakes. By leveraging transfer learning on the Whisper model from OpenAI, the project seeks to provide a cost-effective solution for consistent feedback and self-practice in Torah reading.
-
+Key achievements:
+- Custom adaptation of Whisper model for Hebrew biblical text and cantillation marks
+- Novel evaluation metrics for cantillation accuracy
+- Practical implementation via an accessible Telegram bot
+- Support for multiple reading traditions (נוסחים)
 ---
 
 ## 💡 Motivation
