@@ -145,244 +145,63 @@ In the future, we plan to create a Telegram bot that will allow more people who 
 
 ---
 
-## 🧩 Modules
+# 🧩 Modules
 
-<details closed><summary>.</summary>
-
-| File | Summary |
-| --- | --- |
-| [cantilLocations.py](https://github.com/staviv/cantillation/blob/main/cantilLocations.py) | <code>❯ REPLACE-ME</code> |
-| [main.py](https://github.com/staviv/cantillation/blob/main/main.py) | <code>❯ REPLACE-ME</code> |
-| [LoRA train.ipynb](https://github.com/staviv/cantillation/blob/main/LoRA train.ipynb) | <code>❯ REPLACE-ME</code> |
-| [cantilLocations_evaluation.py](https://github.com/staviv/cantillation/blob/main/cantilLocations_evaluation.py) | <code>❯ REPLACE-ME</code> |
-| [parashat_hashavua_dataset.py](https://github.com/staviv/cantillation/blob/main/parashat_hashavua_dataset.py) | <code>❯ REPLACE-ME</code> |
-| [nikud_and_teamim.py](https://github.com/staviv/cantillation/blob/main/nikud_and_teamim.py) | <code>❯ REPLACE-ME</code> |
-| [test.ipynb](https://github.com/staviv/cantillation/blob/main/test.ipynb) | <code>❯ REPLACE-ME</code> |
-| [main.ipynb](https://github.com/staviv/cantillation/blob/main/main.ipynb) | <code>❯ REPLACE-ME</code> |
-| [tensorboard_to_csv.py](https://github.com/staviv/cantillation/blob/main/tensorboard_to_csv.py) | <code>❯ REPLACE-ME</code> |
-| [test.py](https://github.com/staviv/cantillation/blob/main/test.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-tiny_WeightDecay-0.05_Augmented_Combined-Data_date-10-07-2024_14-33</summary>
+<details open>
+<summary>Core Files</summary>
 
 | File | Summary |
 | --- | --- |
-| [events.out.tfevents.1720622383.b9e0e4d4ca6a.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-tiny_WeightDecay-0.05_Augmented_Combined-Data_date-10-07-2024_14-33/events.out.tfevents.1720622383.b9e0e4d4ca6a.1.0) | <code>❯ REPLACE-ME</code> |
+| [main.py](cantillation/main.py) | Primary script for training and evaluating the Torah cantillation recognition model |
+| [main.ipynb](cantillation/main.ipynb) | Jupyter notebook version of the main training and evaluation pipeline |
+| [LoRA train.ipynb](cantillation/LoRA%20train.ipynb) | Training notebook for adapting the model to specific cantillation styles using Low-Rank Adaptation (LoRA) with minimal data |
+| [cantilLocations.py](cantillation/cantilLocations.py) | Class implementation for representing cantillation marks in a format suitable for metric evaluation |
+| [cantilLocations_evaluation.py](cantillation/cantilLocations_evaluation.py) | Implementation of custom evaluation metrics for assessing cantillation mark recognition accuracy |
+| [nikud_and_teamim.py](cantillation/nikud_and_teamim.py) | Utilities for handling Hebrew text: removing/adding cantillation marks and nikud (vowel points) |
+| [parashat_hashavua_dataset.py](cantillation/parashat_hashavua_dataset.py) | Dataset class that prepares and processes the training data for the model |
 
 </details>
 
-<details closed><summary>logs.Teamim-small_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-08</summary>
+<details open>
+<summary>Data Processing</summary>
 
 | File | Summary |
 | --- | --- |
-| [events.out.tfevents.1721211333.ae14fc9bd3a5.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-08/events.out.tfevents.1721211333.ae14fc9bd3a5.1.0) | <code>❯ REPLACE-ME</code> |
+| [get_torah_text_using_sefaria.py](cantillation/download%20and%20process%20the%20data/get_torah_text_using_sefaria.py) | Retrieves specific Torah chapters using book and chapter parameters from Sefaria API |
+| [get_all_aliyot_from_sefaria.py](cantillation/download%20and%20process%20the%20data/poketorah_and_sefaria_data/get_all_aliyot_from_sefaria.py) | Extracts and generates text files for all Torah portions (aliyot) by their names |
+| [TextNormalizationAndJsonProcessing.py](cantillation/download%20and%20process%20the%20data/TextNormalizationAndJsonProcessing.py) | Text normalization and JSON processing utilities for data preparation |
 
 </details>
 
-<details closed><summary>logs.Teamim-small_WeightDecay-0.05_Augmented_New-Data_nusach-yerushalmi_date-24-07-2024</summary>
+<details open>
+<summary>Evaluation and Monitoring</summary>
 
 | File | Summary |
 | --- | --- |
-| [events.out.tfevents.1721819203.e4f26d7d8e58.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_WeightDecay-0.05_Augmented_New-Data_nusach-yerushalmi_date-24-07-2024/events.out.tfevents.1721819203.e4f26d7d8e58.1.0) | <code>❯ REPLACE-ME</code> |
+| [logs/](cantillation/logs/) | TensorBoard-compatible logging directories containing training metrics and evaluations for different model configurations |
+| [tensorboard_to_csv.py](cantillation/tensorboard_to_csv.py) | Utility for converting TensorBoard logs to CSV format for analysis |
 
 </details>
 
-<details closed><summary>logs.Teamim-small_WeightDecay-0.05_Augmented_New-Data_date-19-07-2024_15-41</summary>
+<details open>
+<summary>User Interface</summary>
 
 | File | Summary |
 | --- | --- |
-| [events.out.tfevents.1721404044.78bf6990ce3d.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_WeightDecay-0.05_Augmented_New-Data_date-19-07-2024_15-41/events.out.tfevents.1721404044.78bf6990ce3d.1.0) | <code>❯ REPLACE-ME</code> |
+| [telegram bot/bot.ipynb](cantillation/telegram%20bot/bot.ipynb) | Telegram bot implementation allowing users to submit audio recordings and receive transcriptions with cantillation marks |
 
 </details>
 
-<details closed><summary>logs.Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_05-09</summary>
+<details open>
+<summary>Configuration</summary>
 
 | File | Summary |
 | --- | --- |
-| [events.out.tfevents.1720674971.f29a046cab63.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_05-09/events.out.tfevents.1720674971.f29a046cab63.1.0) | <code>❯ REPLACE-ME</code> |
+| [global_variables/training_vars.py](cantillation/global_variables/training_vars.py) | Global configuration variables for model training |
+| [global_variables/folders.py](cantillation/global_variables/folders.py) |  File paths used in the project |
 
 </details>
 
-<details closed><summary>logs.Teamim-tiny_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-10 </summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1721211397.0344501c645e.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-tiny_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-10 /events.out.tfevents.1721211397.0344501c645e.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-34_WithNikud</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1721572555.c7024eeb1675.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-34_WithNikud/events.out.tfevents.1721572555.c7024eeb1675.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-small_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_12-42</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1720702215.3b66ddfacd3e.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_12-42/events.out.tfevents.1720702215.3b66ddfacd3e.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-small_Random_WeightDecay-0.05_Augmented_New-Data_date-02-08-2024</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1722597944.cf4872d28e34.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_Random_WeightDecay-0.05_Augmented_New-Data_date-02-08-2024/events.out.tfevents.1722597944.cf4872d28e34.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-23-07-2024</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1721733052.87e4fa342826.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-23-07-2024/events.out.tfevents.1721733052.87e4fa342826.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-large-v2-pd1-e1_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1720981932.7cdaf268d1a8.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-large-v2-pd1-e1_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24/events.out.tfevents.1720981932.7cdaf268d1a8.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-25-07-2024</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1721893796.7986a8065aee.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-25-07-2024/events.out.tfevents.1721893796.7986a8065aee.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-medium_WeightDecay-0.05_Augmented_Combined-Data_date-13-07-2024_18-40</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1720896494.2ba4e115b42b.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-medium_WeightDecay-0.05_Augmented_Combined-Data_date-13-07-2024_18-40/events.out.tfevents.1720896494.2ba4e115b42b.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>logs.Teamim-small_Random_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-33</summary>
-
-| File | Summary |
-| --- | --- |
-| [events.out.tfevents.1721572474.2b09a27adb8f.1.0](https://github.com/staviv/cantillation/blob/main/logs/Teamim-small_Random_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-33/events.out.tfevents.1721572474.2b09a27adb8f.1.0) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>download and process the data</summary>
-
-| File | Summary |
-| --- | --- |
-| [TextNormalizationAndJsonProcessing.py](https://github.com/staviv/cantillation/blob/main/download and process the data/TextNormalizationAndJsonProcessing.py) | <code>❯ REPLACE-ME</code> |
-| [links_for_audio_from_929.json](https://github.com/staviv/cantillation/blob/main/download and process the data/links_for_audio_from_929.json) | <code>❯ REPLACE-ME</code> |
-| [get_torah_text_using_sefaria.py](https://github.com/staviv/cantillation/blob/main/download and process the data/get_torah_text_using_sefaria.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>download and process the data.mechonmamre</summary>
-
-| File | Summary |
-| --- | --- |
-| [mechon_mamre_links.json](https://github.com/staviv/cantillation/blob/main/download and process the data/mechonmamre/mechon_mamre_links.json) | <code>❯ REPLACE-ME</code> |
-| [divided_mp3.py](https://github.com/staviv/cantillation/blob/main/download and process the data/mechonmamre/divided_mp3.py) | <code>❯ REPLACE-ME</code> |
-| [downloadMechoneMamre.py](https://github.com/staviv/cantillation/blob/main/download and process the data/mechonmamre/downloadMechoneMamre.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>download and process the data.poketorah_and_sefaria_data</summary>
-
-| File | Summary |
-| --- | --- |
-| [check_the_aliyot_locations_from_pokethorah_and_compare_it_to_the_real_ones.py](https://github.com/staviv/cantillation/blob/main/download and process the data/poketorah_and_sefaria_data/check_the_aliyot_locations_from_pokethorah_and_compare_it_to_the_real_ones.py) | <code>❯ REPLACE-ME</code> |
-| [get_all_aliyot_from_sefaria.py](https://github.com/staviv/cantillation/blob/main/download and process the data/poketorah_and_sefaria_data/get_all_aliyot_from_sefaria.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>download and process the data.create the audio files and jsons of newdata</summary>
-
-| File | Summary |
-| --- | --- |
-| [02_download the data.py](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/02_download the data.py) | <code>❯ REPLACE-ME</code> |
-| [03_dataset.json](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/03_dataset.json) | <code>❯ REPLACE-ME</code> |
-| [01_the_full_table_of_data.json](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/01_the_full_table_of_data.json) | <code>❯ REPLACE-ME</code> |
-| [02_relevant_data.json](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/02_relevant_data.json) | <code>❯ REPLACE-ME</code> |
-| [הסבר.txt](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/הסבר.txt) | <code>❯ REPLACE-ME</code> |
-| [split_data.py](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/split_data.py) | <code>❯ REPLACE-ME</code> |
-| [03_create full dataset file.py](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/03_create full dataset file.py) | <code>❯ REPLACE-ME</code> |
-| [check_split_data.py](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/check_split_data.py) | <code>❯ REPLACE-ME</code> |
-| [01_get_relevant_data.py](https://github.com/staviv/cantillation/blob/main/download and process the data/create the audio files and jsons of newdata/01_get_relevant_data.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>download and process the data.slice long data.semi automatic cut</summary>
-
-| File | Summary |
-| --- | --- |
-| [cut audio.py](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/semi automatic cut/cut audio.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>download and process the data.slice long data.automatic using WhisperTimeSync</summary>
-
-| File | Summary |
-| --- | --- |
-| [cut_audio.py](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/cut_audio.py) | <code>❯ REPLACE-ME</code> |
-| [output_old.srt](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/output_old.srt) | <code>❯ REPLACE-ME</code> |
-| [slice_the_data.ipynb](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/slice_the_data.ipynb) | <code>❯ REPLACE-ME</code> |
-| [remove_nikud_dicta.py](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/remove_nikud_dicta.py) | <code>❯ REPLACE-ME</code> |
-| [Psalms.119.txt](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/Psalms.119.txt) | <code>❯ REPLACE-ME</code> |
-| [nikud_and_teamim.py](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/nikud_and_teamim.py) | <code>❯ REPLACE-ME</code> |
-| [text.txt](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/text.txt) | <code>❯ REPLACE-ME</code> |
-| [get_torah_text_using_sefaria.py](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/get_torah_text_using_sefaria.py) | <code>❯ REPLACE-ME</code> |
-| [whisper to srt with finetuned model.py](https://github.com/staviv/cantillation/blob/main/download and process the data/slice long data/automatic using WhisperTimeSync/whisper to srt with finetuned model.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>global_variables</summary>
-
-| File | Summary |
-| --- | --- |
-| [training_vars.py](https://github.com/staviv/cantillation/blob/main/global_variables/training_vars.py) | <code>❯ REPLACE-ME</code> |
-| [folders.py](https://github.com/staviv/cantillation/blob/main/global_variables/folders.py) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>telegram bot</summary>
-
-| File | Summary |
-| --- | --- |
-| [bot.ipynb](https://github.com/staviv/cantillation/blob/main/telegram bot/bot.ipynb) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>jsons</summary>
-
-| File | Summary |
-| --- | --- |
-| [test_data_other.json](https://github.com/staviv/cantillation/blob/main/jsons/test_data_other.json) | <code>❯ REPLACE-ME</code> |
-| [03_dataset.json](https://github.com/staviv/cantillation/blob/main/jsons/03_dataset.json) | <code>❯ REPLACE-ME</code> |
-| [test_data.json](https://github.com/staviv/cantillation/blob/main/jsons/test_data.json) | <code>❯ REPLACE-ME</code> |
-| [train_data.json](https://github.com/staviv/cantillation/blob/main/jsons/train_data.json) | <code>❯ REPLACE-ME</code> |
-| [was_train_data_other.json](https://github.com/staviv/cantillation/blob/main/jsons/was_train_data_other.json) | <code>❯ REPLACE-ME</code> |
-| [was_validation_data_other.json](https://github.com/staviv/cantillation/blob/main/jsons/was_validation_data_other.json) | <code>❯ REPLACE-ME</code> |
-| [validation_data.json](https://github.com/staviv/cantillation/blob/main/jsons/validation_data.json) | <code>❯ REPLACE-ME</code> |
-
-</details>
-
-<details closed><summary>old version</summary>
-
-| File | Summary |
-| --- | --- |
-| [002-hebrew.ipynb](https://github.com/staviv/cantillation/blob/main/old version/002-hebrew.ipynb) | <code>❯ REPLACE-ME</code> |
-
-</details>
 
 ---
 
