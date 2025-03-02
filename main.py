@@ -31,21 +31,9 @@ login(token=HF_TOKEN)
 
 
 # %%
-import os
-import librosa
-import random
 import numpy as np
-import IPython.display as ipd
-import pickle
-import pandas as pd
-from datasets import Dataset
-from datasets import Audio
 from torch.utils.data import ConcatDataset
 from transformers import WhisperProcessor
-import mutagen.mp3
-from tqdm import tqdm
-import json
-from audiomentations import Compose, AddGaussianNoise, TimeStretch, PitchShift, Shift, RoomSimulator
 import srt
 import re
 from IPython.display import clear_output

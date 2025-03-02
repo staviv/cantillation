@@ -317,43 +317,58 @@ class parashat_hashavua_dataset:
         
                 # play the audio
                 ipd.display(ipd.Audio(audio[int(start_time * sr):int(end_time * sr)], rate=SR))
-
         
-        
-        # For the new data without the cantillation
         def load_data_srt_mp3(self, train, validation, test):
                 if train and not validation and not test:
-                        folder = './train_srt/'
+                        folder = './train_data/'
                 elif validation and not train and not test:
-                        folder = './validation_srt/'
+                        folder = './validation_data/'
                 elif test and not train and not validation:
-                        folder = './test_srt/'
+                        folder = './test_data/'
                 else:
                         print("Invalid input. Please provide a valid input.")
-                
-                audio_folder = folder + 'audio'
-                transcript_folder = folder + 'text' # the text is in srt format with times
                 audios = []
                 text = []
                 import srt
-                for filename in tqdm(os.listdir(transcript_folder)):
-                        if filename.endswith(".srt"):
-                                audio_path = os.path.join(audio_folder, filename.replace('.srt', '.mp3'))
-                                # if mp3 file doesn't exist, try to find wav file
+                
+                # Get all srt files in the folder
+                srt_files = [f for f in os.listdir(folder) if f.endswith(".srt")]
+                
+                for srt_filename in tqdm(srt_files):
+                        base_name = srt_filename[:-4]  # Remove .srt extension
+                        transcript_path = os.path.join(folder, srt_filename)
+                        
+                        # Try to find corresponding audio file (mp3 or wav)
+                        audio_path = os.path.join(folder, base_name + '.mp3')
+                        if not os.path.exists(audio_path):
+                                audio_path = os.path.join(folder, base_name + '.wav')
                                 if not os.path.exists(audio_path):
-                                        audio_path = os.path.join(audio_folder, filename.replace('.srt', '.wav'))
-                                transcript_path = os.path.join(transcript_folder, filename)
-                                with open(transcript_path, 'r', encoding='utf-8') as f:
-                                        transcript = list(srt.parse(f.read()))
-                                audio, sr = librosa.load(audio_path, sr=16000)
-                                for i, sub in enumerate(transcript):
-                                        start_time = sub.start.total_seconds()
-                                        end_time = sub.end.total_seconds()
-                                        word_audio = audio[int(start_time * sr):int(end_time * sr)]
-                                        audios.append(word_audio)
-                                        text.append(sub.content)
+                                        print(f"No audio file found for {srt_filename}")
+                                        continue
+                        
+                        # Load transcript
+                        with open(transcript_path, 'r', encoding='utf-8') as f:
+                                transcript = list(srt.parse(f.read()))
+                        
+                        # Load audio
+                        audio, sr = librosa.load(audio_path, sr=16000)
+                        
+                        # Process each subtitle segment
+                        for i, sub in enumerate(transcript):
+                                start_time = sub.start.total_seconds()
+                                end_time = sub.end.total_seconds()
+                                
+                                # Skip if times are invalid
+                                if start_time >= end_time or start_time < 0 or end_time * sr >= len(audio):
+                                        continue
+                                        
+                                word_audio = audio[int(start_time * sr):int(end_time * sr)]
+                                audios.append(word_audio)
+                                text.append(sub.content)
+                
                 data_dict = {"audio": audios, "text": text}
                 self.data = pd.DataFrame(data_dict)
+
                 
 
                         
