@@ -327,49 +327,69 @@ class parashat_hashavua_dataset:
                         folder = './test_data/'
                 else:
                         print("Invalid input. Please provide a valid input.")
+                
                 audios = []
                 text = []
                 import srt
                 
-                # Get all srt files in the folder
-                srt_files = [f for f in os.listdir(folder) if f.endswith(".srt")]
-                
-                for srt_filename in tqdm(srt_files):
-                        base_name = srt_filename[:-4]  # Remove .srt extension
-                        transcript_path = os.path.join(folder, srt_filename)
-                        
-                        # Try to find corresponding audio file (mp3 or wav)
-                        audio_path = os.path.join(folder, base_name + '.mp3')
-                        if not os.path.exists(audio_path):
-                                audio_path = os.path.join(folder, base_name + '.wav')
-                                if not os.path.exists(audio_path):
-                                        print(f"No audio file found for {srt_filename}")
-                                        continue
-                        
-                        # Load transcript
-                        with open(transcript_path, 'r', encoding='utf-8') as f:
-                                transcript = list(srt.parse(f.read()))
-                        
-                        # Load audio
-                        audio, sr = librosa.load(audio_path, sr=16000)
-                        
-                        # Process each subtitle segment
-                        for i, sub in enumerate(transcript):
-                                start_time = sub.start.total_seconds()
-                                end_time = sub.end.total_seconds()
+                # Function to process a directory
+                def process_directory(directory):
+                        for item in os.listdir(directory):
+                                item_path = os.path.join(directory, item)
                                 
-                                # Skip if times are invalid
-                                if start_time >= end_time or start_time < 0 or end_time * sr >= len(audio):
-                                        continue
+                                # If it's a directory, process it recursively
+                                if os.path.isdir(item_path):
+                                        process_directory(item_path)
+                                
+                                # If it's an SRT file, process it
+                                elif item.endswith(".srt"):
+                                        base_name = item[:-4]  # Remove .srt extension
+                                        srt_path = item_path
                                         
-                                word_audio = audio[int(start_time * sr):int(end_time * sr)]
-                                audios.append(word_audio)
-                                text.append(sub.content)
+                                        # Look for corresponding audio file in the same directory
+                                        audio_path = os.path.join(directory, base_name + '.mp3')
+                                        if not os.path.exists(audio_path):
+                                                audio_path = os.path.join(directory, base_name + '.wav')
+                                                if not os.path.exists(audio_path):
+                                                        print(f"No audio file found for {item} in {directory}")
+                                                        continue
+                                        
+                                        # Load transcript
+                                        with open(srt_path, 'r', encoding='utf-8') as f:
+                                                try:
+                                                        transcript = list(srt.parse(f.read()))
+                                                except Exception as e:
+                                                        print(f"Error parsing SRT file {srt_path}: {e}")
+                                                        continue
+                                        
+                                        # Load audio
+                                        try:
+                                                audio, sr = librosa.load(audio_path, sr=16000)
+                                        except Exception as e:
+                                                print(f"Error loading audio file {audio_path}: {e}")
+                                                continue
+                                        
+                                        # Process each subtitle segment
+                                        for i, sub in enumerate(transcript):
+                                                start_time = sub.start.total_seconds()
+                                                end_time = sub.end.total_seconds()
+                                                
+                                                # Skip if times are invalid
+                                                if start_time >= end_time or start_time < 0 or end_time * sr >= len(audio):
+                                                        continue
+                                                
+                                                word_audio = audio[int(start_time * sr):int(end_time * sr)]
+                                                audios.append(word_audio)
+                                                text.append(sub.content)
+                                                
+                                        print(f"Processed {item} from {directory} - Added {len(transcript)} segments")
+                
+                # Start processing from the root folder
+                process_directory(folder)
                 
                 data_dict = {"audio": audios, "text": text}
                 self.data = pd.DataFrame(data_dict)
-
-                
+                print(f"Total loaded: {len(self.data)} segments")
 
                         
         def get_data(self):

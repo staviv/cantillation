@@ -64,18 +64,18 @@ def get_sefaria_text_using_api(command):
         return None
 
 
-parsha_names = ["Bereshit", "Noach", "LechLecha", "Vayera", "ChayeiSara", "Toldot", "Vayetzei", "Vayishlach", "Vayeshev", "Miketz", "Vayigash", "Vayechi", "Shemot", "Vaera", "Bo", "Beshalach", "Yitro", "Mishpatim", "Terumah", "Tetzaveh", "KiTisa", "Vayakhel", "Pekudei", "Vayikra", "Tzav", "Shmini", "Tazria", "Metzora", "AchreiMot", "Kedoshim", "Emor", "Behar", "Bechukotai", "Bamidbar", "Nasso", "Behaalotcha", "Shlach", "Korach", "Chukat", "Balak", "Pinchas", "Matot", "Masei", "Devarim", "Vaethanan", "Eikev", "Reeh", "Shoftim", "KiTeitzei", "KiTavo", "Nitzavim", "Vayeilech", "Haazinu", "VezotHaberakhah"]
+parasha_names = ["Bereshit", "Noach", "LechLecha", "Vayera", "ChayeiSara", "Toldot", "Vayetzei", "Vayishlach", "Vayeshev", "Miketz", "Vayigash", "Vayechi", "Shemot", "Vaera", "Bo", "Beshalach", "Yitro", "Mishpatim", "Terumah", "Tetzaveh", "KiTisa", "Vayakhel", "Pekudei", "Vayikra", "Tzav", "Shmini", "Tazria", "Metzora", "AchreiMot", "Kedoshim", "Emor", "Behar", "Bechukotai", "Bamidbar", "Nasso", "Behaalotcha", "Shlach", "Korach", "Chukat", "Balak", "Pinchas", "Matot", "Masei", "Devarim", "Vaethanan", "Eikev", "Reeh", "Shoftim", "KiTeitzei", "KiTavo", "Nitzavim", "Vayeilech", "Haazinu", "VezotHaberakhah"]
 
 
 # Save the text of the aliyot to files "parsha_name-aliyah_number.txt" (Bereshit-1.txt) in the "aliyot_text" folder
-def save_aliyot_text_to_files(aliyot, parsha_names):
+def save_aliyot_text_to_files(aliyot, parasha_names):
     # initialize tqdm progress bar
-    bar = tqdm(total=len(parsha_names)*7)
-    for i, parsha in enumerate(parsha_names):
+    bar = tqdm(total=len(parasha_names)*7)
+    for i, parsha in enumerate(parasha_names):
         for j in range(1, 8):
             text = get_sefaria_text_using_api(aliyot[i*7+j-1])
             os.makedirs('text', exist_ok=True)
-            with open(f"text/{parsha_names[i]}-{j}.txt", "w", encoding="utf-8") as f:
+            with open(f"text/{parasha_names[i]}-{j}.txt", "w", encoding="utf-8") as f:
                 f.write(text)
             bar.update(1)
     bar.close()
