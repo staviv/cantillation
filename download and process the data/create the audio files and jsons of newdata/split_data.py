@@ -1,7 +1,7 @@
 import json
 import random
 
-def split_data(file_path, train_ratio=0.8, validation_ratio=0.1):
+def split_data(file_path, train_ratio=0.9, validation_ratio=0.1):
     
     # Load the original data
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -35,4 +35,4 @@ def split_data(file_path, train_ratio=0.8, validation_ratio=0.1):
     with open('test_data.json', 'w', encoding='utf-8') as f:
         json.dump(test_data, f, ensure_ascii=False, indent=4)
 
-split_data('03_dataset.json', 0.8, 0.1)
+split_data('03_dataset.json', 0.9, 0.1)

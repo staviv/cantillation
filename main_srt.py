@@ -73,13 +73,15 @@ if ADDTOKENS and not tokens_added: # add the tokens if they weren't already adde
 
 
 # %%
-val_data = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
-
+val_data_ben13 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train=False ,validation=True,  num_of_words_in_sample=4, nusachim=NUSACHIM, processor=processor)
+val_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
+val_data = ConcatDataset([val_data_ben13, val_data_srt])
 print(len(val_data))
 
 # %%
-train_data = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
-        
+train_data_ben13 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
+train_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
+train_data = ConcatDataset([train_data_ben13, train_data_srt])
 print(len(train_data))
 # %%
 

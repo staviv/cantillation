@@ -32,7 +32,7 @@ def download_audio_file(url, filepath):
         f.write(response.content)
 
 # Download and save the audio files in parallel
-with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
+with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
     futures = []
     total_files = len(data['audio url']) * len(nusachim)
     completed_files = 0
@@ -52,7 +52,7 @@ file_list = []
 for i, relative_url in enumerate(data['audio url']):
     relative_url = relative_url.lower()
     for nusach in nusachim:
-        filepath = os.path.join('audio_files', nusach + "_" + relative_url.replace("/", "_"))
+        filepath = os.path.join('audio_files/audio_files_ben13', nusach + "_" + relative_url.replace("/", "_"))
         if not os.path.exists(filepath):
             file_link = "https://www.ben13.co.il/audio-files/" + nusach + "/" + relative_url
             file_list.append({
@@ -60,8 +60,8 @@ for i, relative_url in enumerate(data['audio url']):
                 'file_link': file_link
             })
 
-# Download and save the missing audio files in parallel with 10 workers
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+# Download and save the missing audio files in parallel with 5 workers
+with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
     futures = []
     with tqdm(total=len(file_list)) as pbar:
         for file_info in file_list:
@@ -70,12 +70,37 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             pbar.update(1)
 
 # check if all the audio files were downloaded
+missing_files = []
 for i, relative_url in enumerate(data['audio url']):
     relative_url = relative_url.lower()
     for nusach in nusachim:
         filepath = os.path.join('audio_files/audio_files_ben13', nusach + "_" + relative_url.replace("/", "_"))
         if not os.path.exists(filepath):
-            print("missing file:", filepath)
+            missing_files.append(filepath)
+
+# Try to download the missing files again and update the missing_files list
+for file_info in tqdm(missing_files):
+    file_link = "https://www.ben13.co.il/audio-files/" + nusach + "/" + relative_url
+    try:
+        download_audio_file(file_link, file_info)
+    except Exception as e:
+        print(f"Failed to download {file_info}: {e}")
+# Check if the audio files were downloaded successfully
+for i, relative_url in enumerate(data['audio url']):
+    relative_url = relative_url.lower()
+    for nusach in nusachim:
+        filepath = os.path.join('audio_files/audio_files_ben13', nusach + "_" + relative_url.replace("/", "_"))
+        if not os.path.exists(filepath):
+            print(f"Missing file: {filepath}")
+
+# Check if the audio files are in mp3 format and if not, delete them
+for i, relative_url in enumerate(data['audio url']):
+    relative_url = relative_url.lower()
+    for nusach in nusachim:
+        filepath = os.path.join('audio_files/audio_files_ben13', nusach + "_" + relative_url.replace("/", "_"))
+        if os.path.exists(filepath) and not is_mp3(filepath):
+            os.remove(filepath)
+            print(f"Deleted non-mp3 file: {filepath}")
 
 # Create a dataset linking the audio files to their corresponding texts
 dataset = {
