@@ -1,12 +1,31 @@
 # %%
+import os
 import torch
+import subprocess
 
-# Check if CUDA is available
-if torch.cuda.is_available():
-    print("CUDA is available.")
-else:
-    print("CUDA is not available. Check if your GPU drivers are properly installed.")
+def get_gpu_with_most_free_memory():
+    try:
+        # Run nvidia-smi to get GPU memory information
+        result = subprocess.check_output(['nvidia-smi', '--query-gpu=index,memory.free', 
+                                         '--format=csv,nounits,noheader'], 
+                                         encoding='utf-8')
+        
+        # Parse the output
+        lines = result.strip().split('\n')
+        gpu_memory = []
+        for line in lines:
+            index, free_memory = map(int, line.split(','))
+            gpu_memory.append((index, free_memory))
+        
+        # Find GPU with most free memory
+        best_gpu = max(gpu_memory, key=lambda x: x[1])
+        return str(best_gpu[0])
+    except Exception as e:
+        print(f"Error getting GPU information: {e}")
+        return "0"  # Default to GPU 0 if there's an error
 
+# Set CUDA_VISIBLE_DEVICES to the GPU with most available memory
+os.environ["CUDA_VISIBLE_DEVICES"] = get_gpu_with_most_free_memory()
 
 # %%
 from huggingface_hub import login
@@ -52,16 +71,16 @@ if ADDTOKENS and not tokens_added: # add the tokens if they weren't already adde
     
     processor.tokenizer.add_tokens(new_tokens)
 
+
+# %%
+val_data = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
+
+print(len(val_data))
+
 # %%
 train_data = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
         
 print(len(train_data))
-
-
-# %%
-val_data = train_data
-
-print(len(val_data))
 # %%
 
 from dataclasses import dataclass
@@ -231,11 +250,11 @@ training_args = Seq2SeqTrainingArguments(
     learning_rate=LR, # was 1e-5
     warmup_steps=WARMUP_STEPS, # was 500
     max_steps=MAX_STEPS, # was 4000
-    gradient_checkpointing=True,
+    gradient_checkpointing=True, # 
     gradient_checkpointing_kwargs={'use_reentrant':False}, # I added that because UserWarning: "The default value of use_reentrant will be updated to be False in the future."
     fp16=torch.cuda.is_available(), # I added that because fp16 can't be use on CPU but on cuda
     eval_strategy="steps",
-    per_device_eval_batch_size=32,
+    per_device_eval_batch_size=2,
     predict_with_generate=True,
     save_steps=SAVE_STEPS, 
     eval_steps=EVAL_STEPS,   
@@ -246,10 +265,12 @@ training_args = Seq2SeqTrainingArguments(
     greater_is_better=True, # if we use f1 score in eval so greater is better
     push_to_hub=True,
     # I added the dataloader_prefetch_factor to support newer versions of torch (now it must be int and not None. and the default is 2).
-    dataloader_prefetch_factor=2, # support newer versions of torch
+    dataloader_prefetch_factor=2,
     dataloader_num_workers=1, # parallelize the data loading
     weight_decay=WEIGHT_DECAY,
     run_name=RUN_NAME, # It doesn't work
+    generation_max_length=225,
+    torch_compile=False,
 )
 
 
@@ -327,6 +348,10 @@ from datetime import datetime
 
 
 def log_training_to_markdown_file(training_args, training_loss, epoch, step, validation_loss, f1, recall, precision, filename="training_log.md"):
+    # if the file doesn't exist, create it
+    if not os.path.exists(filename):
+        create_markdown_file_with_headers(filename)
+
     # Get the current date and time
     now = datetime.now()
 
@@ -359,6 +384,17 @@ def get_logs_with_step(trainer, step = 1500):
     # Return the merged logs
     return merged_logs_with_step
 
+def get_latest_eval_logs(trainer):
+    """Get the most recent evaluation logs."""
+    latest_eval_logs = {}
+    latest_step = -1
+    
+    for log in trainer.state.log_history:
+        if 'eval_loss' in log and 'step' in log and log['step'] > latest_step:
+            latest_eval_logs = log
+            latest_step = log['step']
+    
+    return latest_eval_logs
 
 # Get the training loss
 training_loss = trainer_state.training_loss
@@ -366,14 +402,19 @@ training_loss = trainer_state.training_loss
 step = trainer.state.global_step
 epoch = trainer.state.epoch
 
-# Get the log history at the specified step
-history = get_logs_with_step(trainer,training_args.max_steps)
-# Get the evaluation details from the log history
-validation_loss = history['eval_loss']
-f1 = history['eval_avg_f1_Exact']
-recall = history['eval_avg_recall_Exact']
-precision = history['eval_avg_precision_Exact']
+# First try to get logs for the max_steps
+history = get_logs_with_step(trainer, training_args.max_steps)
+
+# If eval_loss is not in the history, get the latest evaluation logs
+if not history or 'eval_loss' not in history:
+    history = get_latest_eval_logs(trainer)
+
+# Get the evaluation details from the log history with fallback values
+validation_loss = history.get('eval_loss', 'N/A')
+f1 = history.get('eval_avg_f1_Exact', 'N/A')
+recall = history.get('eval_avg_recall_Exact', 'N/A')
+precision = history.get('eval_avg_precision_Exact', 'N/A')
 
 # Log the training details
-log_training_to_markdown_file(training_args, training_loss, epoch, step, validation_loss, f1, recall, precision, filename="./markdown_files/training_log_new.md")
+log_training_to_markdown_file(training_args, training_loss, epoch, step, validation_loss, f1, recall, precision, filename="./cantillation/markdown_files/training_log_new.md")
 

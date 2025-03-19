@@ -206,11 +206,11 @@ def compute_metrics(pred):
 # # Test the model
 
 # %%
-JUST_ADD_NEW_RESULTS = False
+JUST_ADD_NEW_RESULTS = True
 
 # %%
 if JUST_ADD_NEW_RESULTS:
-    models = []
+    models = ["cantillation/Teamim-medium_Random_WeightDecay-0.005_Augmented_New-Data_date-11-03-2025"]
 else:
     models = ["cantillation/Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_05-09", "cantillation/Teamim-large-v2-pd1-e1_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24", "cantillation/Teamim-medium_WeightDecay-0.05_Augmented_Combined-Data_date-13-07-2024_18-40", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_12-42", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_date-19-07-2024_15-41", "cantillation/Teamim-small_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-08", "cantillation/Teamim-tiny_WeightDecay-0.05_Augmented_Combined-Data_date-10-07-2024_14-33", "cantillation/Teamim-tiny_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-10", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-33","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-34_WithNikud","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-23-07-2024", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_nusach-yerushalmi_date-24-07-2024", "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-25-07-2024", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_New-Data_date-02-08-2024"]
 

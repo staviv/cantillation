@@ -319,6 +319,9 @@ class parashat_hashavua_dataset:
                 ipd.display(ipd.Audio(audio[int(start_time * sr):int(end_time * sr)], rate=SR))
         
         def load_data_srt_mp3(self, train, validation, test):
+                import concurrent.futures
+                import srt  # Make sure to import the srt module
+                
                 if train and not validation and not test:
                         folder = './train_data/'
                 elif validation and not train and not test:
@@ -327,68 +330,82 @@ class parashat_hashavua_dataset:
                         folder = './test_data/'
                 else:
                         print("Invalid input. Please provide a valid input.")
+                        return
                 
-                audios = []
-                text = []
-                import srt
+                # Find all SRT files recursively
+                srt_files = []
                 
-                # Function to process a directory
-                def process_directory(directory):
+                def collect_srt_files(directory):
                         for item in os.listdir(directory):
                                 item_path = os.path.join(directory, item)
-                                
-                                # If it's a directory, process it recursively
                                 if os.path.isdir(item_path):
-                                        process_directory(item_path)
-                                
-                                # If it's an SRT file, process it
+                                        collect_srt_files(item_path)
                                 elif item.endswith(".srt"):
-                                        base_name = item[:-4]  # Remove .srt extension
-                                        srt_path = item_path
-                                        
-                                        # Look for corresponding audio file in the same directory
-                                        audio_path = os.path.join(directory, base_name + '.mp3')
-                                        if not os.path.exists(audio_path):
-                                                audio_path = os.path.join(directory, base_name + '.wav')
-                                                if not os.path.exists(audio_path):
-                                                        print(f"No audio file found for {item} in {directory}")
-                                                        continue
-                                        
-                                        # Load transcript
-                                        with open(srt_path, 'r', encoding='utf-8') as f:
-                                                try:
-                                                        transcript = list(srt.parse(f.read()))
-                                                except Exception as e:
-                                                        print(f"Error parsing SRT file {srt_path}: {e}")
-                                                        continue
-                                        
-                                        # Load audio
-                                        try:
-                                                audio, sr = librosa.load(audio_path, sr=16000)
-                                        except Exception as e:
-                                                print(f"Error loading audio file {audio_path}: {e}")
-                                                continue
-                                        
-                                        # Process each subtitle segment
-                                        for i, sub in enumerate(transcript):
-                                                start_time = sub.start.total_seconds()
-                                                end_time = sub.end.total_seconds()
-                                                
-                                                # Skip if times are invalid
-                                                if start_time >= end_time or start_time < 0 or end_time * sr >= len(audio):
-                                                        continue
-                                                
-                                                word_audio = audio[int(start_time * sr):int(end_time * sr)]
-                                                audios.append(word_audio)
-                                                text.append(sub.content)
-                                                
-                                        print(f"Processed {item} from {directory} - Added {len(transcript)} segments")
+                                        # Store tuple of (srt_path, directory, item)
+                                        srt_files.append((item_path, directory, item))
                 
-                # Start processing from the root folder
-                process_directory(folder)
+                collect_srt_files(folder)
+                print(f"Found {len(srt_files)} SRT files to process")
                 
-                data_dict = {"audio": audios, "text": text}
-                self.data = pd.DataFrame(data_dict)
+                # Worker function for SRT processing
+                def process_srt_file(srt_info):
+                        srt_path, directory, item = srt_info
+                        base_name = item[:-4]  # Remove .srt extension
+                        
+                        results = {"audio": [], "text": []}
+                        
+                        # Look for corresponding audio file
+                        audio_path = os.path.join(directory, base_name + '.mp3')
+                        if not os.path.exists(audio_path):
+                                audio_path = os.path.join(directory, base_name + '.wav')
+                                if not os.path.exists(audio_path):
+                                        # print(f"No audio file found for {item} in {directory}")
+                                        return results
+                        
+                        # Load transcript
+                        try:
+                                with open(srt_path, 'r', encoding='utf-8') as f:
+                                        transcript = list(srt.parse(f.read()))
+                        except Exception as e:
+                                print(f"Error parsing SRT file {srt_path}: {e}")
+                                return results
+                        
+                        # Load audio
+                        try:
+                                audio, sr = librosa.load(audio_path, sr=16000)
+                        except Exception as e:
+                                print(f"Error loading audio file {audio_path}: {e}")
+                                return results
+                        
+                        # Process each subtitle segment
+                        for i, sub in enumerate(transcript):
+                                start_time = sub.start.total_seconds()
+                                end_time = sub.end.total_seconds()
+                                
+                                # Skip if times are invalid
+                                if start_time >= end_time or start_time < 0 or end_time * sr >= len(audio):
+                                        continue
+                                
+                                word_audio = audio[int(start_time * sr):int(end_time * sr)]
+                                results["audio"].append(word_audio)
+                                results["text"].append(sub.content)
+                        
+                        # print(f"Processed {item} - Added {len(results['audio'])} segments")
+                        return results
+                
+                # Process files in parallel using ThreadPoolExecutor instead of ProcessPoolExecutor
+                all_results = {"audio": [], "text": []}
+                max_workers = min(16, len(srt_files)) 
+                
+                with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+                        futures = [executor.submit(process_srt_file, srt_file) for srt_file in srt_files]
+                        for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), 
+                                                        desc="Processing SRT files in parallel"):
+                                result = future.result()
+                                all_results["audio"].extend(result["audio"])
+                                all_results["text"].extend(result["text"])
+                
+                self.data = pd.DataFrame(all_results)
                 print(f"Total loaded: {len(self.data)} segments")
 
                         
