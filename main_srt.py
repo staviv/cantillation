@@ -41,16 +41,13 @@ import numpy as np
 from torch.utils.data import ConcatDataset
 from transformers import WhisperProcessor
 
-# from audiomentations import Compose, AddGaussianNoise, TimeStretch, PitchShift, Shift, RoomSimulator
-import srt
-import re
-from IPython.display import clear_output
 
 #our libraries
 from global_variables.training_vars import *
 from global_variables.folders import *
 from parashat_hashavua_dataset import *
-from nikud_and_teamim import just_teamim,remove_nikud
+# from nikud_and_teamim import just_teamim,remove_nikud
+from nikud_and_teamim import TEAMIM
 
 
 # %%
@@ -61,28 +58,25 @@ processor = WhisperProcessor.from_pretrained("openai/whisper-" + BASE_MODEL_VERS
 tokens_added = (len(processor.tokenizer.encode('֟'))==6) # check if the tokens were already added
 if ADDTOKENS and not tokens_added: # add the tokens if they weren't already added
     
-    teamim = ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', 'ֽ']
     if JUST_TEAMIM:
-        new_tokens = [BASE_CHAR + c for c in teamim] # add the base char to the teamim (e.g. א֑)
+        new_tokens = [BASE_CHAR + c for c in TEAMIM] # add the base char to the teamim (e.g. א֑)
     elif NIKUD:
         new_tokens = ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', '֯', 'ְ', 'ֱ', 'ֲ', 'ֳ', 'ִ', 'ֵ', 'ֶ', 'ַ', 'ָ', 'ֹ', 'ֺ', 'ֻ', 'ּ', 'ֽ', '־', 'ֿ', '׀', 'ׁ', 'ׂ', '׃', 'ׄ', 'ׅ', '׆', 'ׇ']
     else:
-        new_tokens = teamim
+        new_tokens = TEAMIM
     
     processor.tokenizer.add_tokens(new_tokens)
 
 
 # %%
-val_data_ben13 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train=False ,validation=True,  num_of_words_in_sample=4, nusachim=NUSACHIM, processor=processor)
-val_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
-val_data = ConcatDataset([val_data_ben13, val_data_srt])
-print(len(val_data))
+val_data = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
+print("The number of validation data is:", len(val_data))
 
 # %%
 train_data_ben13 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
 train_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
 train_data = ConcatDataset([train_data_ben13, train_data_srt])
-print(len(train_data))
+print("The number of training data is:", len(train_data))
 # %%
 
 from dataclasses import dataclass

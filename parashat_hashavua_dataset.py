@@ -170,7 +170,7 @@ class parashat_hashavua_dataset:
                 texts = []
                 for nusach in nusachim:
                         file_path = "dataset_" + nusach + ".npy"
-                        if os.path.exists(file_path) and False: # we don't want to use the saved data as 1 file right now
+                        if os.path.exists(file_path) and False: # we don't want to use the saved data as 1 file for now
                                 data = np.load(file_path, allow_pickle=True).item()
                                 audios.extend(data['audio'])
                                 texts.extend(data['text'])
@@ -182,7 +182,7 @@ class parashat_hashavua_dataset:
                                 missing_files = []
                                 print(predataset.keys())
                                 for index, audio_file in enumerate(tqdm(predataset[nusach], desc=f"Loading {nusach} nusach ({nusachim.index(nusach)+1}/{len(nusachim)})")):
-                                        audio_path = os.path.join(audio_file)
+                                        audio_path = os.path.join(AUDIO_FILES_new_data, audio_file)
                                         if self.is_text_and_audio_pair_legal(predataset['text'][index], audio_path):
                                                 audio, sr = librosa.load(audio_path, sr=SR)
                                                 audios.append(audio)

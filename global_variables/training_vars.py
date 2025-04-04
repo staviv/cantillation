@@ -8,27 +8,27 @@ NUSACHIM =  ["ashkenazi", "maroko", "yerushalmi", "bavly"] # ["ashkenazi", "maro
 
 
 FASTTEST = False # load small data for testing the code.
-BATCH_SIZE = 8
+BATCH_SIZE = 32
 
 
 SR = 16000
-RANDOM = True 
+RANDOM = False 
 AUGMENT = True # if True, will augment the data 
 
 LR = 1e-5
-WARMUP_STEPS = 500
-EVAL_STEPS = 10000
-SAVE_STEPS = 100000
-MAX_STEPS = 200000
+WARMUP_STEPS = 1000
+EVAL_STEPS = 1000
+SAVE_STEPS = 1000
+MAX_STEPS = 20000
 DROPOUT = False # False or a number between 0 and 1 TODO: fix it in the code 
-WEIGHT_DECAY = 0.05 # False or a number between 0 and 1 (recommended between 0.01 and 0.1. [based on tests I did])
+WEIGHT_DECAY = 0.005 # False or a number between 0 and 1 (recommended between 0.01 and 0.1. [based on tests I did])
 INIT_OUTPUT_LAYER = False # if True, will initialize the output layer with the base model weights.
 
-EVALUATE_FIRST_STEP = True # if True, will evaluate the model after the first step
+EVALUATE_FIRST_STEP = False # if True, will evaluate the model after the first step
 
 #base model 
 BASE_MODEL_VERSIONS = ["tiny", "base", "small", "medium", "large", "large-v2", "large-v3"] # for v3 we need to change the log-mel spectrum
-BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[2] # num of model. 0=tiny 1=base... 6=large-v3
+BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[3] # num of model. 0=tiny 1=base... 6=large-v3
 BASE_MODEL_NAME = "openai/whisper-" + BASE_MODEL_VERSION
 # BASE_MODEL_NAME = "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24"
 # BASE_MODEL_NAME = "ivrit-ai/whisper-v2-d3-e3"
