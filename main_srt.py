@@ -16,9 +16,21 @@ def get_gpu_with_most_free_memory():
         for line in lines:
             index, free_memory = map(int, line.split(','))
             gpu_memory.append((index, free_memory))
+
+        # Sort by free memory (descending)
+        gpu_memory.sort(key=lambda x: x[1], reverse=True)
         
-        # Find GPU with most free memory
-        best_gpu = max(gpu_memory, key=lambda x: x[1])
+        # If multiple GPUs have similar memory (within 1% of the max),
+        # prefer the one with higher index to avoid the first GPU
+        max_free_memory = gpu_memory[0][1]
+        similar_gpus = [gpu for gpu in gpu_memory if gpu[1] >= max_free_memory * 0.99]
+        
+        if len(similar_gpus) > 1:
+            # Choose the GPU with highest index among those with similar memory
+            best_gpu = max(similar_gpus, key=lambda x: x[0])
+        else:
+            best_gpu = gpu_memory[0]
+        
         return str(best_gpu[0])
     except Exception as e:
         print(f"Error getting GPU information: {e}")
@@ -74,9 +86,13 @@ print("The number of validation data is:", len(val_data))
 
 # %%
 train_data_ben13 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
-train_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
-train_data = ConcatDataset([train_data_ben13, train_data_srt])
-print("The number of training data is:", len(train_data))
+if USE_SRT_DATA:
+    train_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
+    train_data = ConcatDataset([train_data_ben13, train_data_srt])
+    print("The number of training data is:", len(train_data))
+else:
+    train_data = train_data_ben13
+    print("The number of training data is:", len(train_data))
 # %%
 
 from dataclasses import dataclass
@@ -306,8 +322,6 @@ def flags_warnings():
     if not ADDTOKENS:
         print("!!!ADDTOKENS==False!!!")
 
-    if not NEWDATA:
-        print("!!!NEWDATA==False!!!")
 
 # %%
 flags_warnings()
