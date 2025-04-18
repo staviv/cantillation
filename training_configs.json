@@ -1,0 +1,18 @@
+[
+  {
+    "model_version": "large-v3-turbo",
+    "batch_size": 16,
+    "lr": 1e-5,
+    "max_steps": 60000,
+    "use_ivritai": true,
+    "use_srt_data": false
+  },
+  {
+    "model_version": "large-v3-turbo",
+    "batch_size": 16,
+    "lr": 1e-5,
+    "max_steps": 60000,
+    "use_ivritai": false,
+    "use_srt_data": false
+  }
+]

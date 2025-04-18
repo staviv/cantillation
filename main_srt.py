@@ -2,6 +2,37 @@
 import os
 import torch
 import subprocess
+import argparse
+import pickle
+import numpy as np
+from torch.utils.data import ConcatDataset
+from transformers import WhisperProcessor
+
+# our libraries
+from global_variables.training_vars import *
+from global_variables.folders import *
+from parashat_hashavua_dataset import *
+from nikud_and_teamim import TEAMIM
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Train a Whisper model for cantillation')
+    parser.add_argument('--gpu', type=str, default=None, help='GPU ID to use (overrides automatic selection)')
+    parser.add_argument('--use_cached_data', action='store_true', help='Use preprocessed cached datasets')
+    parser.add_argument('--model_version', type=str, default=None, 
+                       help='Model version to use (tiny, base, small, medium, large, large-v2, large-v3, large-v3-turbo)')
+    parser.add_argument('--batch_size', type=int, default=None, help='Batch size for training')
+    parser.add_argument('--lr', type=float, default=None, help='Learning rate')
+    parser.add_argument('--max_steps', type=int, default=None, help='Maximum number of training steps')
+    # Add arguments for USE_IVRITAI and USE_SRT_DATA
+    parser.add_argument('--use_ivritai', action='store_true', help='Use ivrit-ai model')
+    parser.add_argument('--no_use_ivritai', action='store_false', dest='use_ivritai', help='Do not use ivrit-ai model')
+    parser.add_argument('--use_srt_data', action='store_true', help='Use SRT data for training')
+    parser.add_argument('--no_use_srt_data', action='store_false', dest='use_srt_data', help='Do not use SRT data for training')
+    
+    # Set default values to None to check if arguments were provided
+    parser.set_defaults(use_ivritai=None, use_srt_data=None)
+    
+    return parser.parse_args()
 
 def get_gpu_with_most_free_memory():
     try:
@@ -36,8 +67,51 @@ def get_gpu_with_most_free_memory():
         print(f"Error getting GPU information: {e}")
         return "0"  # Default to GPU 0 if there's an error
 
-# Set CUDA_VISIBLE_DEVICES to the GPU with most available memory
-os.environ["CUDA_VISIBLE_DEVICES"] = get_gpu_with_most_free_memory()
+# Parse arguments
+args = parse_args()
+
+# Override training variables with command line arguments if provided
+if args.model_version:
+    if args.model_version in BASE_MODEL_VERSIONS:
+        BASE_MODEL_VERSION = args.model_version
+
+# Override USE_IVRITAI if specified in arguments
+if args.use_ivritai is not None:
+    USE_IVRITAI = args.use_ivritai
+    print(f"Use ivrit-ai model: {USE_IVRITAI}")
+
+# Override USE_SRT_DATA if specified in arguments
+if args.use_srt_data is not None:
+    USE_SRT_DATA = args.use_srt_data
+    print(f"Use SRT data: {USE_SRT_DATA}")
+
+# Update BASE_MODEL_NAME based on USE_IVRITAI and BASE_MODEL_VERSION
+if USE_IVRITAI and BASE_MODEL_VERSION == "large-v3-turbo":
+    BASE_MODEL_NAME = "ivrit-ai/whisper-large-v3-turbo"
+    print(f"Using ivrit-ai model: {BASE_MODEL_NAME}")
+else:
+    BASE_MODEL_NAME = f"openai/whisper-{BASE_MODEL_VERSION}"
+    print(f"Using openai model: {BASE_MODEL_NAME}")
+
+if args.batch_size:
+    BATCH_SIZE = args.batch_size
+    print(f"Using batch size: {BATCH_SIZE}")
+
+if args.lr:
+    LR = args.lr
+    print(f"Using learning rate: {LR}")
+
+if args.max_steps:
+    MAX_STEPS = args.max_steps
+    print(f"Using max steps: {MAX_STEPS}")
+
+# Set CUDA_VISIBLE_DEVICES to the specified GPU or automatically select one
+if args.gpu is not None:
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+    print(f"Using GPU: {args.gpu}")
+else:
+    os.environ["CUDA_VISIBLE_DEVICES"] = get_gpu_with_most_free_memory()
+    print(f"Automatically selected GPU: {os.environ['CUDA_VISIBLE_DEVICES']}")
 
 # %%
 from huggingface_hub import login
@@ -46,55 +120,71 @@ with open("./tokens/HF_token.txt", "r") as f:
     HF_TOKEN = f.read().strip() # strip() removes the trailing "\n" if it exists
 login(token=HF_TOKEN)
 
-
 # %%
-
-import numpy as np
-from torch.utils.data import ConcatDataset
-from transformers import WhisperProcessor
-
-
-#our libraries
-from global_variables.training_vars import *
-from global_variables.folders import *
-from parashat_hashavua_dataset import *
-# from nikud_and_teamim import just_teamim,remove_nikud
-from nikud_and_teamim import TEAMIM
-
-
-# %%
-processor = WhisperProcessor.from_pretrained("openai/whisper-" + BASE_MODEL_VERSION, language="hebrew", task="transcribe")
-
-
-# %%
-tokens_added = (len(processor.tokenizer.encode('֟'))==6) # check if the tokens were already added
-if ADDTOKENS and not tokens_added: # add the tokens if they weren't already added
+# Load data and processor
+if args.use_cached_data and os.path.exists("./cantillation/cached_datasets"):
+    print("Loading preprocessed datasets from cache...")
+    # Load processor
+    processor = WhisperProcessor.from_pretrained("./cantillation/cached_datasets/processor")
     
-    if JUST_TEAMIM:
-        new_tokens = [BASE_CHAR + c for c in TEAMIM] # add the base char to the teamim (e.g. א֑)
-    elif NIKUD:
-        new_tokens = ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', '֯', 'ְ', 'ֱ', 'ֲ', 'ֳ', 'ִ', 'ֵ', 'ֶ', 'ַ', 'ָ', 'ֹ', 'ֺ', 'ֻ', 'ּ', 'ֽ', '־', 'ֿ', '׀', 'ׁ', 'ׂ', '׃', 'ׄ', 'ׅ', '׆', 'ׇ']
+    # Load validation data
+    with open("./cantillation/cached_datasets/val_data.pkl", "rb") as f:
+        val_data = pickle.load(f)
+    print(f"Loaded validation data from cache. Size: {len(val_data)}")
+    
+    # Load training data
+    with open("./cantillation/cached_datasets/train_data_ben13.pkl", "rb") as f:
+        train_data_ben13 = pickle.load(f)
+    
+    # Use SRT data only if USE_SRT_DATA is True
+    if USE_SRT_DATA and os.path.exists("./cantillation/cached_datasets/train_data_srt.pkl"):
+        with open("./cantillation/cached_datasets/train_data_srt.pkl", "rb") as f:
+            train_data_srt = pickle.load(f)
+        train_data = ConcatDataset([train_data_ben13, train_data_srt])
+        print(f"Loaded training data from cache (with SRT). Size: {len(train_data)}")
     else:
-        new_tokens = TEAMIM
-    
-    processor.tokenizer.add_tokens(new_tokens)
-
-
-# %%
-val_data = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
-print("The number of validation data is:", len(val_data))
-
-# %%
-train_data_ben13 = parashat_hashavua_dataset(new_data = True, few_data=FASTTEST, train =True ,validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
-if USE_SRT_DATA:
-    train_data_srt = parashat_hashavua_dataset(new_data = True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
-    train_data = ConcatDataset([train_data_ben13, train_data_srt])
-    print("The number of training data is:", len(train_data))
+        train_data = train_data_ben13
+        print(f"Loaded Ben13 training data from cache (without SRT). Size: {len(train_data)}")
 else:
-    train_data = train_data_ben13
-    print("The number of training data is:", len(train_data))
-# %%
+    # Initialize processor
+    processor = WhisperProcessor.from_pretrained(BASE_MODEL_NAME, language="hebrew", task="transcribe")
+    
+    # Add tokens if needed
+    tokens_added = (len(processor.tokenizer.encode('֟'))==6) # check if the tokens were already added
+    if ADDTOKENS and not tokens_added: # add the tokens if they weren't already added
+    
+        if JUST_TEAMIM:
+            new_tokens = [BASE_CHAR + c for c in TEAMIM] # add the base char to the teamim (e.g. א֑)
+        elif NIKUD:
+            new_tokens = ['֑', '֒', '֓', '֔', '֕', '֖', '֗', '֘', '֙', '֚', '֛', '֜', '֝', '֞', '֟', '֠', '֡', '֢', '֣', '֤', '֥', '֦', '֧', '֨', '֩', '֪', '֫', '֬', '֭', '֮', '֯', 'ְ', 'ֱ', 'ֲ', 'ֳ', 'ִ', 'ֵ', 'ֶ', 'ַ', 'ָ', 'ֹ', 'ֺ', 'ֻ', 'ּ', 'ֽ', '־', 'ֿ', '׀', 'ׁ', 'ׂ', '׃', 'ׄ', 'ׅ', '׆', 'ׇ']
+        else:
+            new_tokens = TEAMIM
+        
+        processor.tokenizer.add_tokens(new_tokens)
 
+    # Load data
+    val_data = parashat_hashavua_dataset(new_data=True, processor=processor, load_srt_data=True, num_of_words_in_sample=1, test=True, train=False)
+    print("The number of validation data is:", len(val_data))
+    
+    train_data_ben13 = parashat_hashavua_dataset(new_data=True, few_data=FASTTEST, train=True, validation=False, random=RANDOM, num_of_words_in_sample=4, nusachim=NUSACHIM, augment=AUGMENT, processor=processor)
+    
+    # Use SRT data only if USE_SRT_DATA is True
+    if USE_SRT_DATA:
+        train_data_srt = parashat_hashavua_dataset(new_data=True, processor=processor, load_srt_data=True, num_of_words_in_sample=1)
+        train_data = ConcatDataset([train_data_ben13, train_data_srt])
+        print("The number of training data is (with SRT):", len(train_data))
+    else:
+        train_data = train_data_ben13
+        print("The number of training data is (without SRT):", len(train_data))
+
+# Update the RUN_NAME with the actual model version being used and dataset configuration
+model_prefix = "IvritAI-" if USE_IVRITAI else ""
+RUN_NAME = model_prefix + BASE_MODEL_VERSION + ("_Random" if RANDOM else "") + (("_DropOut-" + str(DROPOUT)) if DROPOUT else "") \
+            + (("_WeightDecay-" + str(WEIGHT_DECAY)) if WEIGHT_DECAY else "")  + "_Augmented"*AUGMENT \
+            + "_WithNikud"*NIKUD + "_WithSRT"*USE_SRT_DATA + "_date-" + dt_string
+MODEL_NAME = f"./Teamim-{RUN_NAME}"
+
+# %%
 from dataclasses import dataclass
 from typing import Any, Dict, List, Union
 
@@ -426,5 +516,6 @@ recall = history.get('eval_avg_recall_Exact', 'N/A')
 precision = history.get('eval_avg_precision_Exact', 'N/A')
 
 # Log the training details
-log_training_to_markdown_file(training_args, training_loss, epoch, step, validation_loss, f1, recall, precision, filename="./cantillation/markdown_files/training_log_new.md")
+log_training_to_markdown_file(training_args, training_loss, epoch, step, validation_loss, f1, recall, precision, 
+                             filename="./cantillation/markdown_files/training_log_new.md")
 

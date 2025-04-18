@@ -16,18 +16,18 @@ AUGMENT = True # if True, will augment the data
 
 LR = 1e-5
 WARMUP_STEPS = 1000
-EVAL_STEPS = 30000
-SAVE_STEPS = 30000
-MAX_STEPS = 100000
+EVAL_STEPS = 2500
+SAVE_STEPS = 2500
+MAX_STEPS = 80000
 DROPOUT = False # False or a number between 0 and 1 TODO: fix it in the code 
 WEIGHT_DECAY = 0.005 # False or a number between 0 and 1 (recommended between 0.01 and 0.1. [based on tests I did])
 INIT_OUTPUT_LAYER = False # if True, will initialize the output layer with the base model weights.
 
-EVALUATE_FIRST_STEP = False # if True, will evaluate the model after the first step
+EVALUATE_FIRST_STEP = True # if True, will evaluate the model after the first step
 
 #base model 
 BASE_MODEL_VERSIONS = ["tiny", "base", "small", "medium", "large", "large-v2", "large-v3", "large-v3-turbo"] # for v3 we need to change the log-mel spectrum
-BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[6] # num of model. 0=tiny 1=base... 7=large-v3-turbo
+BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[7] # num of model. 0=tiny 1=base... 7=large-v3-turbo
 USE_IVRITAI = True # if True, will use the ivrit-ai model. if False, will use the openai model.
 if USE_IVRITAI:
     BASE_MODEL_NAME = "ivrit-ai/whisper-large-v3-turbo"

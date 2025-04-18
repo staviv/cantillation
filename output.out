@@ -1,0 +1,8 @@
+nohup: ignoring input
+Using openai model: openai/whisper-IvritAI-Large-v3-Turbo
+Automatically selected GPU: 3
+Traceback (most recent call last):
+  File "/home/prj8045/cantillation/main_srt.py", line 119, in <module>
+    with open("./tokens/HF_token.txt", "r") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: './tokens/HF_token.txt'
