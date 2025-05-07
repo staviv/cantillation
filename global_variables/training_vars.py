@@ -31,7 +31,7 @@ BASE_MODEL_VERSION = BASE_MODEL_VERSIONS[7] # num of model. 0=tiny 1=base... 7=l
 USE_IVRITAI = True # if True, will use the ivrit-ai model. if False, will use the openai model.
 if USE_IVRITAI:
     BASE_MODEL_NAME = "ivrit-ai/whisper-large-v3-turbo"
-    BASE_MODEL_VERSION = "IvritAI-Large-v3-Turbo"
+    BASE_MODEL_VERSION = "Large-v3-Turbo"
 else:
     BASE_MODEL_NAME = "openai/whisper-" + BASE_MODEL_VERSION
 # BASE_MODEL_NAME = "ivrit-ai/whisper-large-v3-turbo"
@@ -45,7 +45,7 @@ dt_string = now.strftime("%d-%m-%Y")
 # else:
 #     datatype = "New" if NEWDATA else "Old"
 
-RUN_NAME = BASE_MODEL_VERSION + ("_Random" if RANDOM else "") + (("_DropOut-" + str(DROPOUT)) if DROPOUT else "") \
+RUN_NAME = ("IvritAI-" if USE_IVRITAI else "") + BASE_MODEL_VERSION + ("_Random" if RANDOM else "") + (("_DropOut-" + str(DROPOUT)) if DROPOUT else "") \
             + (("_WeightDecay-" + str(WEIGHT_DECAY)) if WEIGHT_DECAY else "")  + "_Augmented"*AUGMENT \
             + "_WithNikud"*NIKUD + "_"  + "_WithSRT"*USE_SRT_DATA + "_date-" + dt_string
             # + datatype + "-Data" + "_Warmup_steps-" + str(WARMUP_STEPS) + "_Eval_steps-" + str(EVAL_STEPS) + "_Save_steps-" + str(SAVE_STEPS) + "_Max_steps-" + str(MAX_STEPS) # + "_EvalFirstStep-" + str(EVALUATE_FIRST_STEP) + "_LR-" + str(LR) + 

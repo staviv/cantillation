@@ -51,18 +51,8 @@ def get_gpu_with_most_free_memory():
         # Sort by free memory (descending)
         gpu_memory.sort(key=lambda x: x[1], reverse=True)
         
-        # If multiple GPUs have similar memory (within 1% of the max),
-        # prefer the one with higher index to avoid the first GPU
-        max_free_memory = gpu_memory[0][1]
-        similar_gpus = [gpu for gpu in gpu_memory if gpu[1] >= max_free_memory * 0.99]
-        
-        if len(similar_gpus) > 1:
-            # Choose the GPU with highest index among those with similar memory
-            best_gpu = max(similar_gpus, key=lambda x: x[0])
-        else:
-            best_gpu = gpu_memory[0]
-        
-        return str(best_gpu[0])
+        # Return the GPU with most free memory
+        return str(gpu_memory[0][0])
     except Exception as e:
         print(f"Error getting GPU information: {e}")
         return "0"  # Default to GPU 0 if there's an error
@@ -84,10 +74,13 @@ if args.use_ivritai is not None:
 if args.use_srt_data is not None:
     USE_SRT_DATA = args.use_srt_data
     print(f"Use SRT data: {USE_SRT_DATA}")
-
+print(f"USE_SRT_DATA: {USE_SRT_DATA}")
+print(f"USE_IVRITAI: {USE_IVRITAI}")
+print(f"BASE_MODEL_VERSION: {BASE_MODEL_VERSION}")
 # Update BASE_MODEL_NAME based on USE_IVRITAI and BASE_MODEL_VERSION
-if USE_IVRITAI and BASE_MODEL_VERSION == "large-v3-turbo":
-    BASE_MODEL_NAME = "ivrit-ai/whisper-large-v3-turbo"
+if USE_IVRITAI and (BASE_MODEL_VERSION == "large-v3-turbo") or (BASE_MODEL_VERSION == "large-v3"):
+    BASE_MODEL_NAME = f"ivrit-ai/whisper-{BASE_MODEL_VERSION}"
+    BASE_MODEL_VERSION = BASE_MODEL_VERSION + "-new"
     print(f"Using ivrit-ai model: {BASE_MODEL_NAME}")
 else:
     BASE_MODEL_NAME = f"openai/whisper-{BASE_MODEL_VERSION}"

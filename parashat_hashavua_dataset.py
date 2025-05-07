@@ -23,9 +23,10 @@ from nikud_and_teamim import just_teamim,remove_nikud
 
 path = "."
 class parashat_hashavua_dataset:
-        def __init__(self, new_data, processor, few_data=False, train = True ,validation=False, test=False, num_of_words_in_sample = 15, random = False, prob_for_num_of_parts=[], nusachim=["ashkenazi"], augment=False, load_srt_data = False):
+        def __init__(self, new_data, processor, few_data=False, train = True ,validation=False, test=False, num_of_words_in_sample = 15, random = False, prob_for_num_of_parts=[], nusachim=["ashkenazi"], augment=False, load_srt_data = False, test_subdir=None):
                 self.data = []
                 self.few_data = few_data
+                self.test_subdir = test_subdir
                 self.load_data(new_data, train, validation, test, nusachim=nusachim, load_srt_data=load_srt_data)
                 if JUST_TEAMIM:
                         self.data['text'] = self.data['text'].apply(just_teamim)
@@ -150,7 +151,9 @@ class parashat_hashavua_dataset:
                         elif validation:
                                 file_path = os.path.join(JSONS_FOLDER, 'validation_data_other.json')
                         elif test:
-                                file_path = os.path.join(JSONS_FOLDER, 'test_data_other.json')  
+                                # Use test_subdir if specified, otherwise use default
+                                test_suffix = f"_{self.test_subdir}" if self.test_subdir else ""
+                                file_path = os.path.join(JSONS_FOLDER, f'test_data_other{test_suffix}.json')  
                         else:
                                 file_path = os.path.join(JSONS_FOLDER, '03_dataset.json') 
                 else: 
@@ -159,7 +162,9 @@ class parashat_hashavua_dataset:
                         elif validation:
                                 file_path = os.path.join(JSONS_FOLDER, 'validation_data.json')
                         elif test:
-                                file_path = os.path.join(JSONS_FOLDER, 'test_data.json')  
+                                # Use test_subdir if specified, otherwise use default
+                                test_suffix = f"_{self.test_subdir}" if self.test_subdir else ""
+                                file_path = os.path.join(JSONS_FOLDER, f'test_data{test_suffix}.json')  
                         else:
                                 file_path = os.path.join(JSONS_FOLDER, '03_dataset.json') 
 
@@ -327,7 +332,10 @@ class parashat_hashavua_dataset:
                 elif validation and not train and not test:
                         folder = './validation_data/'
                 elif test and not train and not validation:
-                        folder = './test_data/'
+                        if self.test_subdir:
+                                folder = f'./test_data/{self.test_subdir}/'
+                        else:
+                                folder = './test_data/'
                 else:
                         print("Invalid input. Please provide a valid input.")
                         return

@@ -10,7 +10,7 @@ else:
 
 # %%
 import os
-os.chdir('/app/')
+os.chdir('./')
 
 
 import librosa
@@ -206,87 +206,183 @@ def compute_metrics(pred):
 # # Test the model
 
 # %%
-JUST_ADD_NEW_RESULTS = True
+JUST_ADD_NEW_RESULTS = False
+FASTTEST = False
 
 # %%
 if JUST_ADD_NEW_RESULTS:
-    models = ["cantillation/Teamim-medium_Random_WeightDecay-0.005_Augmented_New-Data_date-11-03-2025"]
+    models = []
 else:
-    models = ["cantillation/Teamim-base_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_05-09", "cantillation/Teamim-large-v2-pd1-e1_WeightDecay-0.05_Augmented_Combined-Data_date-14-07-2024_18-24", "cantillation/Teamim-medium_WeightDecay-0.05_Augmented_Combined-Data_date-13-07-2024_18-40", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_Combined-Data_date-11-07-2024_12-42", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_date-19-07-2024_15-41", "cantillation/Teamim-small_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-08", "cantillation/Teamim-tiny_WeightDecay-0.05_Augmented_Combined-Data_date-10-07-2024_14-33", "cantillation/Teamim-tiny_WeightDecay-0.05_Combined-Data_date-17-07-2024_10-10", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-33","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-21-07-2024_14-34_WithNikud","cantillation/Teamim-small_WeightDecay-0.05_Augmented_Old-Data_date-23-07-2024", "cantillation/Teamim-small_WeightDecay-0.05_Augmented_New-Data_nusach-yerushalmi_date-24-07-2024", "cantillation/Teamim-large-v2_WeightDecay-0.05_Augmented_Combined-Data_date-25-07-2024", "cantillation/Teamim-small_Random_WeightDecay-0.05_Augmented_New-Data_date-02-08-2024"]
+    models = [
+    "cantillation/Teamim-IvritAI-large-v3-turbo-new_WeightDecay-0.005_Augmented_WithSRT_date-23-04-2025",
+    "cantillation/Teamim-Large-v3-Turbo_WeightDecay-0.005_Augmented_WithSRT_date-18-04-2025",
+    "cantillation/Teamim-small_WeightDecay-0.005_Augmented__date-15-04-2025",
+    "cantillation/Teamim-IvritAI-large-v3-turbo_WeightDecay-0.005_Augmented_WithSRT_date-15-04-2025",
+    "cantillation/Teamim-large-v3-turbo_WeightDecay-0.005_Augmented_WithSRT_date-15-04-2025",
+    "cantillation/Teamim-small_WeightDecay-0.005_Augmented__WithSRT_date-11-04-2025",
+    "cantillation/Teamim-tiny_WeightDecay-0.005_Augmented__WithSRT_date-11-04-2025",
+    "cantillation/Teamim-tiny_WeightDecay-0.005_Augmented__date-10-04-2025",
+    "cantillation/Teamim-medium_WeightDecay-0.005_Augmented__date-08-04-2025",
+    "cantillation/Teamim-medium_WeightDecay-0.005_Augmented_WithSRT_date-05-04-2025",
+    ]
 
+
+# %%
+# Get list of test subdirectories
+def get_test_subdirs():
+    test_dir = './test_data'
+    if not os.path.exists(test_dir):
+        return []
+    
+    subdirs = [d for d in os.listdir(test_dir) 
+               if os.path.isdir(os.path.join(test_dir, d))]
+    
+    # If no subdirs found, return None to run on the whole test directory
+    if not subdirs:
+        return [None]
+    
+    return subdirs
+
+# Test datasets to evaluate
+test_datasets = get_test_subdirs()
+print(f"Found test datasets: {test_datasets if None not in test_datasets else 'Default test directory'}")
 
 # %%
 # Our dataset class needs the processor to check if the length of the audio or the text is too long
-# We use the processor that we updated with teamim
+# Use a generic processor for initial structure, but we'll recreate datasets with correct processors for each model
 processor = WhisperProcessor.from_pretrained(models[0])
-# Load the test data
-test_data = parashat_hashavua_dataset(new_data="other", few_data=FASTTEST, train=False, validation=False, test=True, random=False, num_of_words_in_sample=1, augment=False, processor=processor, load_srt_data=False)
-# test_data = parashat_hashavua_dataset(new_data="other", few_data=FASTTEST, train=False, validation=False, test=True, random=False, num_of_words_in_sample=8, augment=False, processor=processor, load_srt_data=True)
 
+# Dictionary to hold test datasets information (paths, etc.) - not the actual loaded datasets
+test_data_info = {}
 
-# %%
-# lens = test_data.data["audio"].apply(lambda x: len(x))/16000
-# # sum each 4 samples to get the total length of the audio
-# lens = lens.rolling(5).sum().dropna()
-# # plot the length of the audio histogram
-# lens.hist(bins=100)
-
+# Get information about each test dataset
+for test_subdir in test_datasets:
+    subdir_name = test_subdir if test_subdir else "all"
+    print(f"Loading test dataset info: {subdir_name}")
+    
+    # Just store the subdirectory information
+    test_data_info[subdir_name] = test_subdir
+    
+    # Print some info about the dataset location
+    test_dir = os.path.join('./test_data', test_subdir) if test_subdir else './test_data'
+    if os.path.exists(test_dir):
+        print(f"Test data directory: {test_dir}")
+        print(f"Found {len([f for f in os.listdir(test_dir) if f.endswith('.srt')])} SRT files")
 
 # %%
 from transformers import Seq2SeqTrainingArguments
 from transformers import Seq2SeqTrainer
 
-def test_model(model_name):
+def test_model(model_name, test_subdir, dataset_name):
+    """
+    Test a model on a specific dataset, ensuring the processor matches the model.
+    
+    Args:
+        model_name: The name of the model to test
+        test_subdir: The subdirectory in test_data containing the test dataset
+        dataset_name: Name for the dataset in reports
+    
+    Returns:
+        Evaluation results
+    """
     torch.cuda.empty_cache()
-    model = WhisperForConditionalGeneration.from_pretrained(model_name)
-    processor = WhisperProcessor.from_pretrained(model_name)
-    training_args = Seq2SeqTrainingArguments(
-        output_dir= "evalutions_on_other_data/test_" + model_name.split("/")[-1],
-        predict_with_generate=True,
-    )
     
-    # create the data collator (using the processor)
-    data_collator = DataCollatorSpeechSeq2SeqWithPadding(processor=processor)
+    try:
+        # Load model and matching processor
+        print(f"Loading model and processor: {model_name}")
+        model = WhisperForConditionalGeneration.from_pretrained(model_name)
+        processor = WhisperProcessor.from_pretrained(model_name)
+        
+        # Create dataset with the correct processor that matches this model
+        print(f"Creating dataset with processor matched to this model")
+        test_data = parashat_hashavua_dataset(
+            new_data="other", 
+            few_data=FASTTEST, 
+            train=False, 
+            validation=False, 
+            test=True, 
+            random=False, 
+            num_of_words_in_sample=1, 
+            augment=False, 
+            processor=processor, 
+            load_srt_data=True,
+            test_subdir=test_subdir,
+        )
+        
+        print(f"Loaded {len(test_data.data)} samples for testing")
+        
+        # Create directory for this specific dataset if it doesn't exist
+        output_dir = f"evalutions_on_other_data/{dataset_name}"
+        os.makedirs(output_dir, exist_ok=True)
+        
+        training_args = Seq2SeqTrainingArguments(
+            output_dir=f"{output_dir}/test_{model_name.split('/')[-1]}",
+            predict_with_generate=True,
+        )
+        
+        # Create the data collator using the processor matching this model
+        data_collator = DataCollatorSpeechSeq2SeqWithPadding(processor=processor)
+        
+        trainer = Seq2SeqTrainer(
+            args=training_args,
+            model=model,
+            eval_dataset=test_data,
+            data_collator=data_collator,
+            compute_metrics=compute_metrics,
+            tokenizer=processor.feature_extractor,
+        )
+        
+        return trainer.evaluate()
     
-    trainer = Seq2SeqTrainer(
-        args=training_args,
-        model=model,
-        eval_dataset=test_data,
-        data_collator=data_collator,
-        compute_metrics=compute_metrics,
-        tokenizer=processor.feature_extractor,
-    )
+    except Exception as e:
+        print(f"Error testing model {model_name} on dataset {dataset_name}: {e}")
+        # Return a dictionary with error information
+        return {
+            "error": str(e),
+            "wer": float('nan'),  # NaN values for metrics
+            "avg_f1_Exact": float('nan'),
+            "avg_precision_Exact": float('nan'),
+            "avg_recall_Exact": float('nan')
+        }
     
+def test_models(models_names, test_data_info_dict):
+    all_results = {}
     
-    return trainer.evaluate()
-    
-
-def test_models(models_names):
-    results = []
-    for model_name in models_names:
-        with torch.no_grad():
-            result = {"model": model_name}
-            result.update(test_model(model_name))
-            results.append(result)
-            
-    # return the results
-    return results
-
-
+    for dataset_name, test_subdir in test_data_info_dict.items():
+        print(f"\n=== Testing on dataset: {dataset_name} ===")
+        dataset_results = []
+        
+        for model_name in models_names:
+            print(f"Testing model: {model_name}")
+            with torch.no_grad():
+                result = {"model": model_name, "dataset": dataset_name}
+                result.update(test_model(model_name, test_subdir, dataset_name))
+                dataset_results.append(result)
+                
+        all_results[dataset_name] = dataset_results
+        
+        # Save the results for this dataset
+        df_dataset = pd.DataFrame(dataset_results)
+        df_dataset.to_csv(f"evalutions_on_other_data/test_results_{dataset_name}.csv", index=False)
+        print(f"Saved results for dataset {dataset_name}")
+        
+    return all_results
 
 # %%
-# test the models
-results = test_models(models)
+# test the models on all datasets
+all_results = test_models(models, test_data_info)
 
 # %%
-df = pd.DataFrame(results)
+# Process and combine results from all datasets
+combined_results = []
+for dataset_name, results in all_results.items():
+    for result in results:
+        combined_results.append(result)
 
+df_combined = pd.DataFrame(combined_results)
 
-
-# %%
 # Each column label with "eval_" replaced with ""
-df.columns = df.columns.str.replace("eval_", "")
-
+df_combined.columns = df_combined.columns.str.replace("eval_", "")
 
 # %%
 def reorder_columns(df, priority_columns):
@@ -305,8 +401,10 @@ def reorder_columns(df, priority_columns):
     # Reorder columns, placing priority columns first
     reordered_columns = priority_columns + [col for col in df.columns if col not in priority_columns]
     return df[reordered_columns]
-df = reorder_columns(df, ["avg_f1_Exact", "avg_recall_Exact", "avg_precision_Exact","wer"])
-df
+
+# Add dataset column to priority columns
+df_combined = reorder_columns(df_combined, ["dataset", "avg_f1_Exact", "avg_recall_Exact", "avg_precision_Exact", "wer"])
+df_combined
 
 # %%
 import re
@@ -361,76 +459,82 @@ def extract_model_info(model_str):
   
   return model_info
 
-
 # %%
-df
-
-# %%
-
-
-# %%
-# # Load the results
-# df = pd.read_csv("/app/evalutions_on_other_data/test_results.csv")
-
 # Extract model information
-model_info = df['model'].apply(extract_model_info).apply(pd.Series)
+model_info = df_combined['model'].apply(extract_model_info).apply(pd.Series)
 
 # drop the 'model' column
-df.drop('model', axis=1, inplace=True)
-
-
-
+df_combined.drop('model', axis=1, inplace=True)
 
 # add each extracted column to the dataframe
-df = pd.concat([model_info, df], axis=1)
-
-df
+df_combined = pd.concat([model_info, df_combined], axis=1)
 
 # %%
-
+# Create a combined results file with dataset information
+df_combined.to_csv("./evalutions_on_other_data/test_results_all_datasets.csv", index=False)
 
 # %%
+# Create a pivot table to compare models across datasets
+pivot_df = df_combined.pivot_table(
+    index=['model', 'augmented', 'with_nikud', 'random'], 
+    columns=['dataset'], 
+    values=['avg_f1_Exact', 'wer']
+)
+
+# Flatten the hierarchical column names
+pivot_df.columns = [f"{col[0]}_{col[1]}" for col in pivot_df.columns]
+
+# Reset index to make it a regular DataFrame
+pivot_df = pivot_df.reset_index()
+
+# Save the comparison table
+pivot_df.to_csv("./evalutions_on_other_data/model_comparison_across_datasets.csv", index=False)
+pivot_df
+
+# %%
+# For backward compatibility, save one consolidated file with all results
 if JUST_ADD_NEW_RESULTS:
     # load old results add the new results
-    old_df = pd.read_csv("/app/evalutions_on_other_data/test_results.csv")
+    old_df = pd.read_csv("./evalutions_on_other_data/test_results.csv")
 
     # add the new results
-    df = pd.concat([old_df, df], ignore_index=True) 
+    df = pd.concat([old_df, df_combined], ignore_index=True) 
+else:
+    df = df_combined.copy()
     
-df
+# Save as the original file for backward compatibility
+df.to_csv("./evalutions_on_other_data/test_results.csv", index=False)
 
 # %%
-df
+# Create a bar chart to visualize model performance across datasets
+import matplotlib.pyplot as plt
 
-# %%
+# Select the best models based on avg_f1_Exact for visualization
+top_models = df_combined.groupby('model')['avg_f1_Exact'].mean().nlargest(5).index
+top_models_df = df_combined[df_combined['model'].isin(top_models)]
 
-# Defined order list
-order = ['tiny', 'base', 'small', 'medium', 'large', 'large-v2', 'large-v3']
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 12))
 
-# Function to find the closest category from the list, checking from end to start
-def find_closest_category(value, categories):
-    for category in reversed(categories):
-        if category in value:
-            return category
-    return value
+# Plot avg_f1_Exact
+top_models_df.pivot(index='model', columns='dataset', values='avg_f1_Exact').plot(
+    kind='bar', ax=ax1, rot=45
+)
+ax1.set_title('Model Performance (F1 Score) Across Datasets')
+ax1.set_ylabel('Avg F1 Exact')
+ax1.legend(title='Dataset')
+ax1.grid(axis='y', linestyle='--', alpha=0.7)
 
-# Create a new column with the closest category values
-df['model_closest'] = df['model'].apply(lambda x: find_closest_category(x, order))
+# Plot WER (lower is better)
+top_models_df.pivot(index='model', columns='dataset', values='wer').plot(
+    kind='bar', ax=ax2, rot=45
+)
+ax2.set_title('Model Performance (WER) Across Datasets')
+ax2.set_ylabel('Word Error Rate (lower is better)')
+ax2.legend(title='Dataset')
+ax2.grid(axis='y', linestyle='--', alpha=0.7)
 
-# Create a categorical type with the defined order on the new column
-df['model_closest'] = pd.Categorical(df['model_closest'], categories=order, ordered=True)
-
-# Sort the DataFrame by the new column
-df = df.sort_values('model_closest')
-df = df.drop(columns=['model_closest'])  # Remove the temporary column
-
-
-# %%
-df
-
-# %%
-
-# save the results
-df.to_csv("/app/evalutions_on_other_data/test_results.csv", index=False)
+plt.tight_layout()
+plt.savefig("./evalutions_on_other_data/model_comparison_chart.png", dpi=300)
+plt.show()
 
 
